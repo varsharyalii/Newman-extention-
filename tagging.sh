@@ -3,12 +3,11 @@ tagging() {
   IFS=',';
   tag=($1);
   unset IFS;
-command = newman run <(cat PostmanRP.json | jq -c '
+command = newman run <(cat Cosmos.postman_collection.json | jq -c '
   del(..| select(
     (.request)?
     and (
-      (.name)? | test("\\[${tag}\\]") | not
+      (.name)? | test("\\[${Tag}\\]") | not
     )
   ))
-') \
-  --environment envvariables.json
+') --environment cosmos.postman_environment.json
