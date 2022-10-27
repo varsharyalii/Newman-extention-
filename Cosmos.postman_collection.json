@@ -1,0 +1,441 @@
+{
+	"info": {
+		"_postman_id": "c8be6b7c-3f89-4753-873c-4b5e7b48eba6",
+		"name": "Cosmos",
+		"description": "A sample API that retrieves constellations as an example to demonstrate features in the OpenAPI 3.0 specification.\n\n**Get started**: Make sure you have a Postman environment called `cosmos` selected in the Postman app. There should be a key `baseUrl` with the value `https://e8c086f7-a5c9-4752-b81f-bfac0d0dc5d2.mock.pstmn.io`.\n\nThis collection was generated from an OpenAPI specification file as described in this blog post about [Bringing law and order to APIs with OpenAPI Specifications](https://medium.com/@joycelin.codes/api-specifications-d87588ac874). Follow along with [this example project](https://github.com/postmanlabs/spectral-postman).\n ",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20137377"
+	},
+	"item": [
+		{
+			"name": "cosmos",
+			"item": [
+				{
+					"name": "List all cosmos",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/cosmos",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"cosmos"
+							]
+						},
+						"description": "Returns all constellations in this sample dataset"
+					},
+					"response": [
+						{
+							"name": "An array of constellations",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/cosmos",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"cosmos"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n \"id\": \"<long>\",\n \"name\": \"<string>\",\n \"tag\": \"<string>\"\n}"
+						},
+						{
+							"name": "unexpected error",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/cosmos",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"cosmos"
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n \"code\": \"<integer>\",\n \"message\": \"<string>\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Info for a specific constellation",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/cosmos/:cosmoId",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"cosmos",
+								":cosmoId"
+							],
+							"variable": [
+								{
+									"key": "cosmoId",
+									"value": "<string>",
+									"type": "string",
+									"description": "The id of the constellation to retrieve"
+								}
+							]
+						},
+						"description": "Returns a constellation based on a single ID"
+					},
+					"response": [
+						{
+							"name": "unexpected error",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/cosmos/<string>",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"cosmos",
+										"<string>"
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n \"code\": \"<integer>\",\n \"message\": \"<string>\"\n}"
+						},
+						{
+							"name": "Expected response to a valid request",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/cosmos/<string>",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"cosmos",
+										"<string>"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n \"id\": \"<long>\",\n \"name\": \"<string>\",\n \"tag\": \"<string>\",\n \"description\": \"<string>\"\n}"
+						}
+					]
+				}
+			],
+			"description": "This folder was automatically generated from the OpenAPI Specification v3.0 file. We won't make any changes here so you can refer back to it, but we'll add our tests in the next folder called `cosmos - with tests`.",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "cosmos - with tests",
+			"item": [
+				{
+					"name": "List all cosmos",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/cosmos",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"cosmos"
+							]
+						},
+						"description": "Returns all constellations in this sample dataset"
+					},
+					"response": [
+						{
+							"name": "unexpected error",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/cosmos",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"cosmos"
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n \"code\": \"<integer>\",\n \"message\": \"<string>\"\n}"
+						},
+						{
+							"name": "An array of constellations",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/cosmos",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"cosmos"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n \"id\": \"<long>\",\n \"name\": \"<string>\",\n \"tag\": \"<string>\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Info for a specific constellation",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response is object\", function () {",
+									"    pm.expect(pm.response.json()).to.be.an(\"object\");",
+									"});",
+									"",
+									"pm.test(\"Response contains description\", function () {",
+									"    pm.expect(pm.response.json()).to.have.property(\"description\");",
+									"});",
+									"",
+									"if (pm.response.code === 200) {",
+									"    pm.environment.unset(\"constellationId\");",
+									"}",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/cosmos/:cosmoId",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"cosmos",
+								":cosmoId"
+							],
+							"variable": [
+								{
+									"key": "cosmoId",
+									"value": "{{constellationId}}",
+									"type": "string",
+									"description": "The id of the constellation to retrieve"
+								}
+							]
+						},
+						"description": "Returns a constellation based on a single ID"
+					},
+					"response": [
+						{
+							"name": "Expected response to a valid request",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/cosmos/<string>",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"cosmos",
+										"<string>"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n \"id\": \"<long>\",\n \"name\": \"<string>\",\n \"tag\": \"<string>\",\n \"description\": \"<string>\"\n}"
+						},
+						{
+							"name": "unexpected error",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/cosmos/<string>",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"cosmos",
+										"<string>"
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n \"code\": \"<integer>\",\n \"message\": \"<string>\"\n}"
+						}
+					]
+				}
+			],
+			"description": "This folder was duplicated from the preceding folder called `cosmos`. Let's add our tests in this folder.",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "https://e8c086f7-a5c9-4752-b81f-bfac0d0dc5d2.mock.pstmn.io"
+		}
+	]
+}
