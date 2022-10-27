@@ -11,7 +11,7 @@
 			"name": "cosmos",
 			"item": [
 				{
-					"name": "List all cosmos",
+					"name": "List all cosmos [Tag]" ,
 					"request": {
 						"auth": {
 							"type": "noauth"

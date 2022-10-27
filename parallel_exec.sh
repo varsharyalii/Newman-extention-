@@ -6,8 +6,7 @@ createNewmanCommands() {
     unset IFS;
     command='parallel :::';
     for (( i = 0; i < ${#folders[@]}; i++ )); do
-        folders[$i]=" 'newman run Cosmos.postman_collection.json --folder \""\
-        ${folders[$i]}"\" -e cosmos.postman_environment.json '";
+        folders[$i]=" 'newman run Cosmos.postman_collection.json --folder \""${folders[$i]}"\" -e cosmos.postman_environment.json '";
         command="${command}${folders[$i]}";
     done
     echo -e "Command generated with folders - ${command}\n";
