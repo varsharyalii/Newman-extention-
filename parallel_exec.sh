@@ -6,7 +6,8 @@ createNewmanCommands() {
     unset IFS;
     command='parallel :::';
     for (( i = 0; i < ${#folders[@]}; i++ )); do
-        folders[$i]=" 'newman run PostmanAutomation.json --folder \""${folders[$i]}"\" -e envvariables.json '";
+        folders[$i]=" 'newman run Cosmos.postman_collection.json --folder \""\
+        ${folders[$i]}"\" -e cosmos.postman_environment.json '";
         command="${command}${folders[$i]}";
     done
     echo -e "Command generated with folders - ${command}\n";
@@ -14,7 +15,7 @@ createNewmanCommands() {
 }
 if [[ -z "$1" ]]; then
     echo -e "No argument supplied, running all tests \n"
-    newman run PostmanRP.json -e envvariables.json
+    newman run Cosmos.postman_collection.json -e cosmos.postman_environment.json
 else
     createNewmanCommands "$1";
 fi
