@@ -10,7 +10,7 @@ echo -e "   ${fname} -p --parallel for parallel command"
 echo -e "   ${fname} -t --tag tagging"
 }
 ##################################################################
-options=$(getopt -o hn:e:p --long help --long newmax: --long parallel: -- "$@")
+options=$(getopt -o hn:e:p --long help --long newmax: --long parallel --long folder: -- "$@")
 ##################################################################
 while true; do
     case "$1" in
