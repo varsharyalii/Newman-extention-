@@ -5,12 +5,12 @@ fname=$fname'|'$fname
 usage() {
 echo -e "Usage:"
 echo -e "   ${fname} -h --help for that help menu"
-echo -e "   ${fname} -n --newmax for newmax command"
+echo -e "   ${fname} -n --newman for newman command"
 echo -e "   ${fname} -p --parallel for parallel command"
 echo -e "   ${fname} -t --tag tagging"
 }
 ##################################################################
-options=$(getopt -o hn:e:p --long help --long newmax: --long parallel --long folder: -- "$@")
+options=$(getopt -o ht: --long help  --long tagging: -- "$@" -- '')
 ##################################################################
 while true; do
     case "$1" in
@@ -18,13 +18,20 @@ while true; do
         usage;
         break
         ;;
-    -n|--newman)
+    newman)
         #some NewMan Code
-        eval newman run $@
+        echo "executing '${@}'"
+        eval $@
         break
         ;;
-    -p|--parallel)
-        echo 'parallel'
+    parallel)
+        echo $@
+        ./parallel_exec.sh $(echo $@|sed "s|parallel||")
+        break
+        ;;
+    -t|--tagging)
+        argss= $(echo $@|sed "s|-t||"|sed "s|--tag||")
+        ./tagging.sh $argss
         break
         ;;
     *)
@@ -35,4 +42,3 @@ while true; do
     esac
     shift
 done
-
