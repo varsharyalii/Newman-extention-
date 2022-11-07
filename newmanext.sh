@@ -5,8 +5,8 @@ fname=$fname'|'$fname
 usage() {
 echo -e "Usage:"
 echo -e "   ${fname} -h --help for that help menu"
-echo -e "   ${fname} -n --newman for newman command"
-echo -e "   ${fname} -p --parallel for parallel command"
+echo -e "   ${fname} newman [options][command] for newman command"
+echo -e "   ${fname} parallel [options] [command [arguments]] <list_of_arguments for parallel command"
 echo -e "   ${fname} -t --tag tagging"
 }
 ##################################################################
@@ -39,6 +39,7 @@ while true; do
         shift
         break
         ;;
+
     esac
     shift
 done
