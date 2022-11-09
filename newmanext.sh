@@ -7,7 +7,7 @@ echo -e "Usage:"
 echo -e "   ${fname} -h --help for that help menu"
 echo -e "   ${fname} newman [options][command] for newman command"
 echo -e "   ${fname} parallel [options] [command [arguments]] <list_of_arguments for parallel command"
-echo -e "   ${fname} -t --tag tagging"
+echo -e "   ${fname} -t --Tagging tagging"
 }
 ##################################################################
 options=$(getopt -o ht: --long help  --long tagging: -- "$@" -- '')
@@ -29,9 +29,9 @@ while true; do
         ./parallel_exec.sh $(echo $@|sed "s|parallel||")
         break
         ;;
-    -t|--tagging)
-        argss=$(echo $@|sed "s|-t||"|sed "s|--tag||")
-        #echo $argss
+    -t|--Tagging)
+        argss=$(echo $@|sed "s|-t||"|sed "s|--Tagging||")
+        echo $argss
         ./tagging.sh $argss
         break
         ;;

@@ -2,6 +2,8 @@
 #IFS=',';
 tag=$1
 #unset IFS;
+#-c collection
+#-e env
 newman run <(cat Cosmos.postman_collection.json | jq -c '
       del(..| select(
      (.request)?
