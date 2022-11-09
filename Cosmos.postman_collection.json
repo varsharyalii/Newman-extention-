@@ -197,7 +197,7 @@
 			]
 		},
 		{
-			"name": "cosmos - with tests",
+			"name": "cosmostest",
 			"item": [
 				{
 					"name": "List all cosmos",

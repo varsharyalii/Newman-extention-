@@ -30,7 +30,8 @@ while true; do
         break
         ;;
     -t|--tagging)
-        argss= $(echo $@|sed "s|-t||"|sed "s|--tag||")
+        argss=$(echo $@|sed "s|-t||"|sed "s|--tag||")
+        #echo $argss
         ./tagging.sh $argss
         break
         ;;
