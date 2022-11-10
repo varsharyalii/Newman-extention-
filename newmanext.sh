@@ -10,7 +10,8 @@ echo -e "   ${fname} parallel [options] [command [arguments]] <list_of_arguments
 echo -e "   ${fname} -t --Tagging tagging"
 }
 ##################################################################
-options=$(getopt -o ht: --long help  --long tagging: -- "$@" -- '')
+##################################################################
+options=$(getopt -o he:c:t: --long help --long parallel  --long tagging: -- "$@" -- '')
 ##################################################################
 while true; do
     case "$1" in
@@ -18,15 +19,19 @@ while true; do
         usage;
         break
         ;;
+     -c|-e)
+      echo
+      break
+      ;;
     newman)
         #some NewMan Code
         echo "executing '${@}'"
         eval $@
         break
         ;;
-    parallel)
-        echo $@
-        ./parallel_exec.sh $(echo $@|sed "s|parallel||")
+    parallel|--parallel)
+        #echo $@
+        ./parallel_exec.sh $(echo $@|sed "s|parallel||"|sed "s/--parallel//")
         break
         ;;
     -t|--Tagging)

@@ -18,11 +18,9 @@ createNewmanCommands() {
     unset IFS;
     command='parallel :::';
     #adding folders as options
-    # -c collection 
-    # -e env
     #
     for (( i = 0; i < ${#folders[@]}; i++ )); do
-        folders[$i]="'newman run ${collection} --folder \""${folders[$i]}"\" -e ${environment} '";
+        folders[$i]=" 'newman run \""${collection}"\" --folder \""${folders[$i]}"\" -e \""${environment}"\" '";
         command="${command}${folders[$i]}";
     done
     echo -e "Command generated with folders - ${command}\n";
@@ -34,10 +32,12 @@ if [[ -z "$1" ]]; then
 else
  environment='cosmos.postman_environment.json'
  collection='Cosmos.postman_collection.json'
+ shift 1
+ folderArg=$1
+ shift
+ #echo $@
  optparse $@
  shift $(( OPTIND - 1 ))
- #echo $collection
- #echo $environment
- createNewmanCommands $@
+ createNewmanCommands $folderArg
 fi
 echo -e "\n######### Completed: `date` #########\n"

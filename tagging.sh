@@ -1,5 +1,4 @@
 #!/bin/bash
-#!/bin/bash
 optparse(){
 while getopts "e:c:" opt; do
   case "$opt" in
@@ -11,6 +10,9 @@ while getopts "e:c:" opt; do
     ;;
   esac
 done
+shift $(( OPTIND - 1 ))
+tag=$1
+echo 'tag is '$tag
 }
 
 tagging(){
@@ -32,7 +34,5 @@ else
  environment='cosmos.postman_environment.json'
  collection='Cosmos.postman_collection.json'
  optparse $@
- shift $(( OPTIND - 1 ))
- echo $@
- tagging $@
+ tagging
 fi
