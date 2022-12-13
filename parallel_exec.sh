@@ -31,8 +31,8 @@ if [[ -z "$1" ]]; then
     echo -e "No argument supplied, running all tests \n"
     newman run Cosmos.postman_collection.json -e cosmos.postman_environment.json
 else
- environment='cosmos.postman_environment.json'
- collection='Cosmos.postman_collection.json'
+ #environment='cosmos.postman_environment.json'
+ #collection='Cosmos.postman_collection.json'
  #shift 1
  folderArg=$1
  shift

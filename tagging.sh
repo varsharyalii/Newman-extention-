@@ -12,7 +12,7 @@ while getopts "e:c:" opt; do
 done
 shift $(( OPTIND - 1 ))
 tag=$1
-echo 'tag is '$tag
+#echo 'tag is '$tag
 }
 
 tagging(){
@@ -31,8 +31,9 @@ if [[ -z $1 ]]; then
  echo -e 'No enough args :('
  exit 1
 else
- environment='cosmos.postman_environment.json'
- collection='Cosmos.postman_collection.json'
+ #environment='cosmos.postman_environment.json'
+ #collection='Cosmos.postman_collection.json'
  optparse $@
+ echo 'env is :' $environment 'col is:' $collection 'tag is ' $tag
  tagging
 fi
