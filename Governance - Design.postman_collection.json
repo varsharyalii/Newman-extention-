@@ -1,0 +1,4006 @@
+{
+	"info": {
+		"_postman_id": "6384d25d-7df7-417a-a408-121d860e0333",
+		"name": "Governance - Design",
+		"description": "# Who this collection is for\nThose who are trying to bring consistency to an organizations API design will be thinking about how they can bring a set of guidelines into force.\n\n# What does this collection do?\nLays out a set of requests that allows you to assess the condition of your API schema within Postman, and whether it meets the style and criteria that you expect your APIs to present.\n\n# More\nThis is the API governance Postman collection for [Union Fashion](http://union.fashion/), providing a documented and executable process that can be applied to all APIs being developed to support business operations. Demonstrating how Postman collections and tests can be used to define and enforce governance across API operations, in a self-service, and eventually fully automated way.\n\nThis governance framework is still being defined, and will keep evolving based upon the overall objectives of Union Fashion operations. [GitHub issues for teh Union Fashion governance repo](https://github.com/union-fashion/governance/issues) will be used for evolving these collections, and the individual requests that they possess. Allowing all of the individual rules to be evolved independently, but still exist as a single collection.\n\nEach API being evaulated needs to have it's own governance environment, which is available above, providing an artifact for all the meta adata about the API being governed, and to be able to store the results the governance process, providing a snapshot of how well each API meets the governance criteria. Adding another potential environmental state to each API, helping bring each API into alignment with each other.\n\nThis governance collection is solely focused on what I would consider to be a \"design governance\" collection focused on the design of each API using its OpenAPI contract. There is [another governance collection being developed to scan and report upon other stops along the API lifecycle](https://documenter.getpostman.com/view/10394726/SzYUagbA?version=latest), but since most people are only discussing the design of an API when investing in API governance, I wanted a separate collection to focus on this part of the conversation.\n\n## Configuration\nThere are two separate configuration options available as part of this collection. There needs to be more work to streamline how schemas are pulled from the Postman API, and until that work is done, there are to paths you can choose to configure which API you will be governing with this collection:\n\n* Option 1 - This is a manual series of API calls you make to pull the individual API to be governed, then the version, and schema. Each individual request has it's own instructions.\n* Option 2 - This is a single API call with a test script to make all of the API calls necessary, abstracting away the complextiy. You just have to provide the name of your workspace, API, and the version of the schem that you want to work with.\n\nThere used to be a version of this that would store the OpenAPI in the environment and each call would work from that, but it makes more sense to always pull the latest OpenAPI definition with each request, however there are API rate limits to consider as part of this.\n\nHere are some other things to keep top of mind as you are working with this collection:\n\n- **This is a proof of concept -- use at your own risk!**\n- **You will need your Postman API key in the environment**\n- **Make sure you have the environment selected before running**\n- **Run the one of the configuration options before running anything individual requests**\n- **It uses same testing infrastructure as regular API request, so view using test results tab**\n- **It stores all the results of each individual test in the environment**\n- **Once configured, this collection can be run as monitor or in pipeline using Newman**\n\nIf you have any questions, comments, or feedback you can submit GitHub issues for the repo, and we will work to support as part of regular work on this project. It is a proof of concept, and the scripting is very hacky, and needs has much that should be delivered as common libraries, but works for demonstrating what is possible. Feedback is necessary to know where to take this development next, helping standardize how API design governance is executed.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "16081299"
+	},
+	"item": [
+		{
+			"name": "Configuration",
+			"item": [
+				{
+					"name": "Pulls a list of all APIs",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-api-key",
+								"type": "text",
+								"value": "{{postman_api_key}}"
+							}
+						],
+						"url": {
+							"raw": "https://api.getpostman.com/apis/",
+							"protocol": "https",
+							"host": [
+								"api",
+								"getpostman",
+								"com"
+							],
+							"path": [
+								"apis",
+								""
+							]
+						},
+						"description": "This pulls a list of all APIs. You will need to find the ID of the API you wish to govern, grab the ID, then make a call pulling just the details of the API you wish to govern."
+					},
+					"response": [
+						{
+							"name": "asd asdasd",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-api-key",
+										"value": "{{apiKey}}",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{url}}/apis/{{apiId}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"apis",
+										"{{apiId}}"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n\t\"api\": {\n\t\t\"id\": \"387c2863-6ee3-4a56-8210-225f774edade\",\n\t\t\"name\": \"Sync API\",\n\t\t\"summary\": \"This is a summary\",\n\t\t\"description\": \"This is a description.This is a description.\",\n\t\t\"createdBy\": \"5665\",\n\t\t\"createdAt\": \"2019-02-12 19:34:49\",\n\t\t\"updatedAt\": \"2019-02-12 19:34:49\"\n\t}\n}"
+						}
+					]
+				},
+				{
+					"name": "Pull version of single API",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-api-key",
+								"type": "text",
+								"value": "{{postman_api_key}}"
+							}
+						],
+						"url": {
+							"raw": "https://api.getpostman.com/apis/:api_id/versions",
+							"protocol": "https",
+							"host": [
+								"api",
+								"getpostman",
+								"com"
+							],
+							"path": [
+								"apis",
+								":api_id",
+								"versions"
+							],
+							"variable": [
+								{
+									"key": "api_id",
+									"value": "b06cd7bd-51a8-40df-a036-d5cec42700c6",
+									"type": "string"
+								}
+							]
+						},
+						"description": "This pulls a list of all APIs. You will need to find the ID of the API you wish to govern, grab the ID, then make a call pulling just the details of the API you wish to govern."
+					},
+					"response": [
+						{
+							"name": "Get single API",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-api-key",
+										"value": "{{apiKey}}",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{url}}/apis/{{apiId}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"apis",
+										"{{apiId}}"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n\t\"api\": {\n\t\t\"id\": \"387c2863-6ee3-4a56-8210-225f774edade\",\n\t\t\"name\": \"Sync API\",\n\t\t\"summary\": \"This is a summary\",\n\t\t\"description\": \"This is a description.This is a description.\",\n\t\t\"createdBy\": \"5665\",\n\t\t\"createdAt\": \"2019-02-12 19:34:49\",\n\t\t\"updatedAt\": \"2019-02-12 19:34:49\"\n\t}\n}"
+						}
+					]
+				},
+				{
+					"name": "Pull version of the API",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-api-key",
+								"type": "text",
+								"value": "{{postman_api_key}}"
+							}
+						],
+						"url": {
+							"raw": "https://api.getpostman.com/apis/:api_id/versions/:version_id",
+							"protocol": "https",
+							"host": [
+								"api",
+								"getpostman",
+								"com"
+							],
+							"path": [
+								"apis",
+								":api_id",
+								"versions",
+								":version_id"
+							],
+							"variable": [
+								{
+									"key": "api_id",
+									"value": "b06cd7bd-51a8-40df-a036-d5cec42700c6",
+									"type": "string"
+								},
+								{
+									"key": "version_id",
+									"value": "e9d51adf-9738-4e58-9c76-b0d11c196d1d",
+									"type": "string"
+								}
+							]
+						},
+						"description": "This pulls a list of all APIs. You will need to find the ID of the API you wish to govern, grab the ID, then make a call pulling just the details of the API you wish to govern."
+					},
+					"response": [
+						{
+							"name": "Get single API",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-api-key",
+										"value": "{{apiKey}}",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{url}}/apis/{{apiId}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"apis",
+										"{{apiId}}"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n\t\"api\": {\n\t\t\"id\": \"387c2863-6ee3-4a56-8210-225f774edade\",\n\t\t\"name\": \"Sync API\",\n\t\t\"summary\": \"This is a summary\",\n\t\t\"description\": \"This is a description.This is a description.\",\n\t\t\"createdBy\": \"5665\",\n\t\t\"createdAt\": \"2019-02-12 19:34:49\",\n\t\t\"updatedAt\": \"2019-02-12 19:34:49\"\n\t}\n}"
+						}
+					]
+				},
+				{
+					"name": "Pull schema for the version",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// grab all three variables so we can reuse",
+									"pm.environment.set(\"postman_api_id\",pm.request.url.path[1]);",
+									"pm.environment.set(\"postman_version_id\",pm.request.url.path[3]);",
+									"pm.environment.set(\"postman_schema_id\",pm.request.url.path[5]);"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-api-key",
+								"type": "text",
+								"value": "{{postman_api_key}}"
+							}
+						],
+						"url": {
+							"raw": "https://api.getpostman.com/apis/:api_id/versions/:version_id/schemas/:schema_id",
+							"protocol": "https",
+							"host": [
+								"api",
+								"getpostman",
+								"com"
+							],
+							"path": [
+								"apis",
+								":api_id",
+								"versions",
+								":version_id",
+								"schemas",
+								":schema_id"
+							],
+							"variable": [
+								{
+									"key": "api_id",
+									"value": "b06cd7bd-51a8-40df-a036-d5cec42700c6",
+									"type": "string"
+								},
+								{
+									"key": "version_id",
+									"value": "e9d51adf-9738-4e58-9c76-b0d11c196d1d",
+									"type": "string"
+								},
+								{
+									"key": "schema_id",
+									"value": "2fd465f3-c25a-41eb-91a2-ca8eeffd79b5",
+									"type": "string"
+								}
+							]
+						},
+						"description": "This pulls a list of all APIs. You will need to find the ID of the API you wish to govern, grab the ID, then make a call pulling just the details of the API you wish to govern."
+					},
+					"response": [
+						{
+							"name": "Get single API",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-api-key",
+										"value": "{{apiKey}}",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{url}}/apis/{{apiId}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"apis",
+										"{{apiId}}"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n\t\"api\": {\n\t\t\"id\": \"387c2863-6ee3-4a56-8210-225f774edade\",\n\t\t\"name\": \"Sync API\",\n\t\t\"summary\": \"This is a summary\",\n\t\t\"description\": \"This is a description.This is a description.\",\n\t\t\"createdBy\": \"5665\",\n\t\t\"createdAt\": \"2019-02-12 19:34:49\",\n\t\t\"updatedAt\": \"2019-02-12 19:34:49\"\n\t}\n}"
+						}
+					]
+				}
+			],
+			"description": "This is one way you can get the details of the OpenAPI for the API you'd like to govern. The Postman API requires multiple steps before you get to the actual schema of the API, and these four requests will let you pull a list of APIs, find the API you want, then pull the version and schema for the API--providing a more manual approach. Ultimately arriving at the same goal, putting the ids in the environment so it can be used by each of the governance requests.",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Info",
+			"item": [
+				{
+					"name": "Does the name of the API meet requirements?",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// We need a YAML library",
+									"const yaml =  pm.environment.get('js_yaml');",
+									"(new Function(yaml))();",
+									"",
+									"// Get the body",
+									"var jsonData = pm.response.json();",
+									"",
+									"var openapi_type = jsonData.schema.type;",
+									"var openapi_language = jsonData.schema.language;",
+									"var schema_body = jsonData.schema.schema;",
+									"",
+									"// We are only doing for OpenAPI right now",
+									"if(openapi_type=='openapi3'){",
+									"",
+									"    if(openapi_language=='yaml'){",
+									"        try {",
+									"          var oas = jsyaml.load(schema_body);",
+									"        } catch (e) {",
+									"          console.log(e);",
+									"        }  ",
+									"    }",
+									"    else{",
+									"        try {",
+									"          var oas = JSON.parse(schema_body);",
+									"        } catch (e) {",
+									"          console.log(e);",
+									"        }                                             ",
+									"    }",
+									"",
+									"  var title = oas.info.title;",
+									"",
+									"  // Is the title greater than five?",
+									"  var greater_than_five = 0;",
+									"  if(title.length > 5){",
+									"    greater_than_five = 1;  ",
+									"  }",
+									"",
+									"  // Is the title less than 25?",
+									"  var less_than_twenty_five = 0;",
+									"  if(title.length < 25){",
+									"    less_than_twenty_five = 1;  ",
+									"  }",
+									"",
+									"  var meet_requirements = 0;",
+									"  if(greater_than_five == 1 && less_than_twenty_five == 1){",
+									"      meet_requirements = 1;",
+									"  }",
+									"",
+									"  pm.test(\"Is the title greater than five?\", function () {",
+									"      pm.expect(greater_than_five).to.eql(1);",
+									"  });",
+									"",
+									"  pm.test(\"Is the title less than twenty-five?\", function () {",
+									"      pm.expect(less_than_twenty_five).to.eql(1);",
+									"  });",
+									"",
+									"  pm.environment.set(\"Does the name of the API meet requirements?\", meet_requirements);",
+									"",
+									"  pm.test(\"Does the name of the API meet requirements?\", function () {",
+									"      pm.expect(meet_requirements).to.eql(1);",
+									"  });",
+									"",
+									"  }",
+									"else{",
+									"  pm.test(\"Does the name of the API meet requirements?\", function () {",
+									"      pm.expect(0).to.eql(1);",
+									"  });  ",
+									"}",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-api-key",
+								"value": "{{postman_api_key}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://api.getpostman.com/apis/:api_id/versions/:version_id/schemas/:schema_id",
+							"protocol": "https",
+							"host": [
+								"api",
+								"getpostman",
+								"com"
+							],
+							"path": [
+								"apis",
+								":api_id",
+								"versions",
+								":version_id",
+								"schemas",
+								":schema_id"
+							],
+							"variable": [
+								{
+									"key": "api_id",
+									"value": "{{postman_api_id}}",
+									"type": "string"
+								},
+								{
+									"key": "version_id",
+									"value": "{{postman_version_id}}",
+									"type": "string"
+								},
+								{
+									"key": "schema_id",
+									"value": "{{postman_schema_id}}",
+									"type": "string"
+								}
+							]
+						},
+						"description": "This will vaidate that the name of the API meets all requirements."
+					},
+					"response": []
+				},
+				{
+					"name": "Does the description of the API meet requirements?",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// We need a YAML library",
+									"const yaml =  pm.environment.get('js_yaml');",
+									"(new Function(yaml))();",
+									"",
+									"// Get the body",
+									"var jsonData = pm.response.json();",
+									"",
+									"var openapi_type = jsonData.schema.type;",
+									"var openapi_language = jsonData.schema.language;",
+									"var schema_body = jsonData.schema.schema;",
+									"",
+									"// We are only doing for OpenAPI right now",
+									"if(openapi_type=='openapi3'){",
+									"",
+									"    if(openapi_language=='yaml'){",
+									"        try {",
+									"          var oas = jsyaml.load(schema_body);",
+									"        } catch (e) {",
+									"          console.log(e);",
+									"        }  ",
+									"    }",
+									"    else{",
+									"        try {",
+									"          var oas = JSON.parse(schema_body);",
+									"        } catch (e) {",
+									"          console.log(e);",
+									"        }                                             ",
+									"    }",
+									"",
+									"    // Has description?",
+									"    var has_description = 0;",
+									"    if(oas.info.description){",
+									"        has_description = 1;",
+									"    }",
+									"    pm.test(\"Has a description for the API\", function () {",
+									"        pm.expect(has_description).to.eql(1);",
+									"    });",
+									"",
+									"",
+									"    if(has_description == 0){",
+									"    var greater_than_hundred = 0;",
+									"    var less_than_thousand = 0;",
+									"    }",
+									"    else{",
+									"        ",
+									"        var description = oas.info.description;",
+									"        ",
+									"        // Description is greater than 100",
+									"        var greater_than_hundred = 0;",
+									"        if(description.length > 100){",
+									"        greater_than_hundred = 1;  ",
+									"        }",
+									"        ",
+									"        // Description is less than 1000",
+									"        var less_than_thousand = 0;",
+									"        if(description.length < 1000){",
+									"        less_than_thousand = 1;  ",
+									"        }    ",
+									"",
+									"    }",
+									"",
+									"    var meet_requirements = 0;",
+									"    if(greater_than_hundred == 1 && less_than_thousand == 1){",
+									"        meet_requirements = 1;",
+									"    }",
+									"",
+									"    pm.test(\"API description is greater than 100\", function () {",
+									"        pm.expect(greater_than_hundred).to.eql(1);",
+									"    });",
+									"",
+									"    pm.test(\"API description is less than 1000\", function () {",
+									"        pm.expect(less_than_thousand).to.eql(1);",
+									"    });",
+									"",
+									"    pm.environment.set(\"Does the description of the API meet requirements?\", meet_requirements);",
+									"",
+									"    pm.test(\"Does the description of the API meet requirements?\", function () {",
+									"        pm.expect(meet_requirements).to.eql(1);",
+									"    });",
+									"",
+									"  }",
+									"else{",
+									"  pm.test(\"Does the name of the API meet requirements?\", function () {",
+									"      pm.expect(0).to.eql(1);",
+									"  });  ",
+									"}",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{postman_api_key}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "x-api-key",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://api.getpostman.com/apis/:api_id/versions/:version_id/schemas/:schema_id",
+							"protocol": "https",
+							"host": [
+								"api",
+								"getpostman",
+								"com"
+							],
+							"path": [
+								"apis",
+								":api_id",
+								"versions",
+								":version_id",
+								"schemas",
+								":schema_id"
+							],
+							"variable": [
+								{
+									"key": "api_id",
+									"value": "{{postman_api_id}}",
+									"type": "string"
+								},
+								{
+									"key": "version_id",
+									"value": "{{postman_version_id}}",
+									"type": "string"
+								},
+								{
+									"key": "schema_id",
+									"value": "{{postman_schema_id}}",
+									"type": "string"
+								}
+							]
+						},
+						"description": "This is for ensuring the description of the API meets all requirements."
+					},
+					"response": []
+				}
+			],
+			"description": "Making sure the most common information about each API is as complete as possible. Providing an area of each aPIs contract that describes the value each API delivers, standardizing what information is available about APIs across operations.\n",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Paths",
+			"item": [
+				{
+					"name": "Are paths using words?",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// We need a YAML library",
+									"const yaml =  pm.environment.get('js_yaml');",
+									"(new Function(yaml))();",
+									"",
+									"// Get the body",
+									"var jsonData = pm.response.json();",
+									"",
+									"var openapi_type = jsonData.schema.type;",
+									"var openapi_language = jsonData.schema.language;",
+									"var schema_body = jsonData.schema.schema;",
+									"",
+									"// We are only doing for OpenAPI right now",
+									"if(openapi_type=='openapi3'){",
+									"",
+									"    if(openapi_language=='yaml'){",
+									"        try {",
+									"          var oas = jsyaml.load(schema_body);",
+									"        } catch (e) {",
+									"          console.log(e);",
+									"        }  ",
+									"    }",
+									"    else{",
+									"        try {",
+									"          var oas = JSON.parse(schema_body);",
+									"        } catch (e) {",
+									"          console.log(e);",
+									"        }                                             ",
+									"    }",
+									"                ",
+									"    var has_api_paths = 0;",
+									"",
+									"    var all_resources = [];",
+									"",
+									"    if(oas.paths){",
+									"",
+									"        var paths = oas.paths;",
+									"        ",
+									"        for (const [path, methods] of Object.entries(paths)) {",
+									"            ",
+									"            var path_array = path.split(\"/\");",
+									"            ",
+									"            for (aIndex = 0; aIndex < path_array.length; aIndex++) {",
+									"        ",
+									"                var segment = path_array[aIndex];",
+									"                ",
+									"                if(segment.length > 0){",
+									"                    ",
+									"                    var variable = segment.includes(\"{\");",
+									"",
+									"                    if(!variable){",
+									"",
+									"                    var already_stored = 0;",
+									"                    ",
+									"                    for (bIndex = 0; bIndex < all_resources.length; bIndex++) {",
+									"                        if(segment === all_resources[bIndex]){",
+									"                            already_stored = 1;",
+									"                        }",
+									"                    }",
+									"",
+									"                    var s = {};",
+									"                    s['word'] = segment;",
+									"                    s['path'] = path;",
+									"                    ",
+									"                    if(already_stored === 0){",
+									"                        all_resources.push(s);",
+									"                    }   ",
+									"                    ",
+									"                }",
+									"            }",
+									"                ",
+									"        }",
+									"            ",
+									"    }",
+									"",
+									"    } ",
+									"",
+									"    console.log(all_resources);",
+									"",
+									"    var postman_api_url = 'https://gist.githubusercontent.com/kinlane/cfeea900c5112794576d45eaca359c1b/raw/d302473b467b001915365f144f04f8bc4ccb6041/words.json';",
+									"",
+									"    const apiVersionsRequest = {",
+									"    url: postman_api_url,",
+									"    method: 'GET'",
+									"    };",
+									"",
+									"    pm.sendRequest(apiVersionsRequest, function (err, res) {",
+									"        if (err) {",
+									"            console.log(err);",
+									"        } else {  ",
+									"",
+									"            var words = res.json(); ",
+									"            ",
+									"            var are_all_paths_using_words = 1;",
+									"            ",
+									"            for (aIndex = 0; aIndex < all_resources.length; aIndex++) {",
+									"                ",
+									"                var resource_a_word = 0",
+									"                var resource = all_resources[aIndex].word;",
+									"                var path = all_resources[aIndex].path;",
+									"                ",
+									"                for (bIndex = 0; bIndex < words.length; bIndex++) {",
+									"                    if(all_resources[aIndex].word === words[bIndex].word){",
+									"                    resource_a_word = 1; ",
+									"                    }",
+									"                }    ",
+									"                ",
+									"                if(resource_a_word == 0){",
+									"                    are_all_paths_using_words = 0;",
+									"                }",
+									"                ",
+									"                pm.test(resource + \" from \" + path + \" is a word\", function () {",
+									"                    pm.expect(resource_a_word).to.eql(1);",
+									"                });            ",
+									"            }",
+									"            ",
+									"            pm.environment.set(\"Are paths using words?\", are_all_paths_using_words);",
+									"            ",
+									"            pm.test(\"Are paths using words?\", function () {",
+									"                pm.expect(are_all_paths_using_words).to.eql(1);",
+									"            });           ",
+									"            ",
+									"        }",
+									"    });",
+									"",
+									"  }",
+									"else{",
+									"  pm.test(\"Does the name of the API meet requirements?\", function () {",
+									"      pm.expect(0).to.eql(1);",
+									"  });  ",
+									"}    "
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{postman_api_key}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "x-api-key",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://api.getpostman.com/apis/:api_id/versions/:version_id/schemas/:schema_id",
+							"protocol": "https",
+							"host": [
+								"api",
+								"getpostman",
+								"com"
+							],
+							"path": [
+								"apis",
+								":api_id",
+								"versions",
+								":version_id",
+								"schemas",
+								":schema_id"
+							],
+							"variable": [
+								{
+									"key": "api_id",
+									"value": "{{postman_api_id}}",
+									"type": "string"
+								},
+								{
+									"key": "version_id",
+									"value": "{{postman_version_id}}",
+									"type": "string"
+								},
+								{
+									"key": "schema_id",
+									"value": "{{postman_schema_id}}",
+									"type": "string"
+								}
+							]
+						},
+						"description": "This loops through each segment of each API path and checks to see if it is a word. It ignores variables."
+					},
+					"response": []
+				}
+			],
+			"description": "This section is about evaluating each individual path being used to make API resources available. Helping make sure there is a consistent approach to the naming, structure, and scope of surface area of each API. Providing a well designed set of paths for getting at the valuable resources being made available via Union Fashion APIs.",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Methods",
+			"item": [
+				{
+					"name": "Parameters",
+					"item": [
+						{
+							"name": "Are all parameters using camelCase?",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"function isCamelCase(str) {",
+											"  return /[A-Z]/.test(str)",
+											"}",
+											"",
+											"function isUpperCase(str) {",
+											"    return str === str.toUpperCase();",
+											"}",
+											"",
+											"function isLowerCase(str) {",
+											"    return str === str.toLowerCase();",
+											"}",
+											"",
+											"// We need a YAML library",
+											"const yaml =  pm.environment.get('js_yaml');",
+											"(new Function(yaml))();",
+											"",
+											"// Get the body",
+											"var jsonData = pm.response.json();",
+											"",
+											"var openapi_type = jsonData.schema.type;",
+											"var openapi_language = jsonData.schema.language;",
+											"var schema_body = jsonData.schema.schema;",
+											"",
+											"// We are only doing for OpenAPI right now",
+											"if(openapi_type=='openapi3'){",
+											"",
+											"    if(openapi_language=='yaml'){",
+											"        try {",
+											"          var oas = jsyaml.load(schema_body);",
+											"        } catch (e) {",
+											"          console.log(e);",
+											"        }  ",
+											"    }",
+											"    else{",
+											"        try {",
+											"          var oas = JSON.parse(schema_body);",
+											"        } catch (e) {",
+											"          console.log(e);",
+											"        }                                             ",
+											"    }",
+											"",
+											"    var has_api_paths = 0;",
+											"",
+											"    var are_all_parameters_camel_case = 1;",
+											"",
+											"    if(oas.paths){",
+											"",
+											"        var paths = oas.paths;",
+											"        ",
+											"        for (const [path, methods] of Object.entries(paths)) {",
+											"        ",
+											"            //console.log(path);",
+											"        ",
+											"            for (const [verb, method] of Object.entries(methods)) {",
+											"                ",
+											"                //console.log(verb);",
+											"                ",
+											"                //console.log(method);",
+											"                ",
+											"                if(method.parameters){",
+											"                ",
+											"                    var parameters = method.parameters;",
+											"                    ",
+											"                    for (pIndex = 0; pIndex < parameters.length; pIndex++) {",
+											"                        ",
+											"                        name = parameters[pIndex].name;",
+											"",
+											"                        is_camel_case = isCamelCase(name);",
+											"                        ",
+											"                        if(is_camel_case==true){",
+											"                            is_camel_case = 1;",
+											"                        }",
+											"                        else{",
+											"                        ",
+											"                        // check if snake case",
+											"                        var has_underscore = name.includes(\"_\");",
+											"                        // check if all lowercase",
+											"                        var is_it_all_lowercase = isLowerCase(name);",
+											"                        // check if all upper",
+											"                        var is_it_all_upper = isUpperCase(name);",
+											"                        ",
+											"                        if(is_it_all_lowercase == true && is_it_all_upper == false && has_underscore == false){",
+											"                            is_camel_case = 1;",
+											"                        }",
+											"                        else{",
+											"                                is_camel_case = 0; ",
+											"                                are_all_parameters_camel_case = 0;                           ",
+											"                        }",
+											"                        }",
+											"                        ",
+											"                        pm.test('Is the parameter \"' + name + '\" using camelCase?', function () {",
+											"                            pm.expect(is_camel_case).to.eql(1);",
+											"                        });                     ",
+											"                        ",
+											"                    }",
+											"                ",
+											"                }",
+											"                ",
+											"            }       ",
+											"            ",
+											"        }",
+											"",
+											"    } ",
+											"",
+											"    pm.environment.set(\"Are all parameters using camelCase?\", are_all_parameters_camel_case);",
+											"",
+											"    pm.test(\"Are all parameters using camelCase?\", function () {",
+											"        pm.expect(are_all_parameters_camel_case).to.eql(1);",
+											"    });",
+											"",
+											"  }",
+											"else{",
+											"  pm.test(\"Are all parameters using camelCase?\", function () {",
+											"      pm.expect(0).to.eql(1);",
+											"  });  ",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "{{postman_api_key}}",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "x-api-key",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://api.getpostman.com/apis/:api_id/versions/:version_id/schemas/:schema_id",
+									"protocol": "https",
+									"host": [
+										"api",
+										"getpostman",
+										"com"
+									],
+									"path": [
+										"apis",
+										":api_id",
+										"versions",
+										":version_id",
+										"schemas",
+										":schema_id"
+									],
+									"variable": [
+										{
+											"key": "api_id",
+											"value": "{{postman_api_id}}",
+											"type": "string"
+										},
+										{
+											"key": "version_id",
+											"value": "{{postman_version_id}}",
+											"type": "string"
+										},
+										{
+											"key": "schema_id",
+											"value": "{{postman_schema_id}}",
+											"type": "string"
+										}
+									]
+								},
+								"description": "Makes sure all of the parameters are camel case -- still working on this one."
+							},
+							"response": []
+						},
+						{
+							"name": "Do all parameters have descriptions?",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// We need a YAML library",
+											"const yaml =  pm.environment.get('js_yaml');",
+											"(new Function(yaml))();",
+											"",
+											"// Get the body",
+											"var jsonData = pm.response.json();",
+											"",
+											"var openapi_type = jsonData.schema.type;",
+											"var openapi_language = jsonData.schema.language;",
+											"var schema_body = jsonData.schema.schema;",
+											"",
+											"// We are only doing for OpenAPI right now",
+											"if(openapi_type=='openapi3'){",
+											"",
+											"    if(openapi_language=='yaml'){",
+											"        try {",
+											"          var oas = jsyaml.load(schema_body);",
+											"        } catch (e) {",
+											"          console.log(e);",
+											"        }  ",
+											"    }",
+											"    else{",
+											"        try {",
+											"          var oas = JSON.parse(schema_body);",
+											"        } catch (e) {",
+											"          console.log(e);",
+											"        }                                             ",
+											"    }",
+											"",
+											"    var all_parameter_descriptions_Have_paths = 1;",
+											"",
+											"    if(oas.paths){",
+											"",
+											"        var paths = oas.paths;",
+											"        ",
+											"        for (const [path, methods] of Object.entries(paths)) {",
+											"        ",
+											"            console.log(path);",
+											"        ",
+											"            for (const [verb, method] of Object.entries(methods)) {",
+											"                ",
+											"                console.log(verb);",
+											"                ",
+											"                console.log(method);",
+											"                ",
+											"                if(method.parameters){",
+											"                ",
+											"                    var parameters = method.parameters;",
+											"                    ",
+											"                    for (pIndex = 0; pIndex < parameters.length; pIndex++) {",
+											"                        ",
+											"                        name = parameters[pIndex].name;",
+											"                        ",
+											"                        if(parameters[pIndex].description){",
+											"                        ",
+											"                            description = parameters[pIndex].description;",
+											"                            ",
+											"                            // Description is greater than 100",
+											"                            var greater_than_hundred = 0;",
+											"                            if(description.length > 100){",
+											"                            greater_than_hundred = 1;  ",
+											"                            }",
+											"                            ",
+											"                            // Description is less than 1000",
+											"                            var less_than_thousand = 0;",
+											"                            if(description.length < 1000){",
+											"                            less_than_thousand = 1;  ",
+											"                            }        ",
+											"                            ",
+											"                            pm.test(path + ' - ' + verb + ' - ' + name + ' description is greater than 100', function () {",
+											"                                pm.expect(greater_than_hundred).to.eql(1);",
+											"                            });",
+											"                            ",
+											"                            pm.test(path + ' - ' + verb + ' - ' + name + ' description is less than 1000', function () {",
+											"                                pm.expect(less_than_thousand).to.eql(1);",
+											"                            });",
+											"                            ",
+											"                            ",
+											"                        ",
+											"                        }",
+											"                        else{",
+											"                            var all_parameter_descriptions_Have_paths = 0;",
+											"                        }",
+											"                    }",
+											"                    ",
+											"                ",
+											"                }",
+											"                ",
+											"                ",
+											"                ",
+											"            }       ",
+											"            ",
+											"        }",
+											"",
+											"    } ",
+											"",
+											"    pm.environment.set(\"Do all parameters have descriptions?\", all_parameter_descriptions_Have_paths);",
+											"",
+											"    pm.test(\"Do all parameters have descriptions?\", function () {",
+											"        pm.expect(all_parameter_descriptions_Have_paths).to.eql(1);",
+											"    });",
+											"",
+											"  }",
+											"else{",
+											"  pm.test(\"Do all parameters have descriptions?\", function () {",
+											"      pm.expect(0).to.eql(1);",
+											"  });  ",
+											"}    "
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "{{postman_api_key}}",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "x-api-key",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://api.getpostman.com/apis/:api_id/versions/:version_id/schemas/:schema_id",
+									"protocol": "https",
+									"host": [
+										"api",
+										"getpostman",
+										"com"
+									],
+									"path": [
+										"apis",
+										":api_id",
+										"versions",
+										":version_id",
+										"schemas",
+										":schema_id"
+									],
+									"variable": [
+										{
+											"key": "api_id",
+											"value": "{{postman_api_id}}",
+											"type": "string"
+										},
+										{
+											"key": "version_id",
+											"value": "{{postman_version_id}}",
+											"type": "string"
+										},
+										{
+											"key": "schema_id",
+											"value": "{{postman_schema_id}}",
+											"type": "string"
+										}
+									]
+								},
+								"description": "Makes sure that all method query parameters have descriptions."
+							},
+							"response": []
+						}
+					],
+					"description": "For the methods that have parameters, there are a number of details that should be present. This area of governance is about making sure that path and query parameters are consistent across all APIs, employing the same patterns for how resources are defined, and made accessible via Union Fashion APIs.",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Responses",
+					"item": [
+						{
+							"name": "Do all methods have an HTTP Status Success (2xx)?",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// We need a YAML library",
+											"const yaml =  pm.environment.get('js_yaml');",
+											"(new Function(yaml))();",
+											"",
+											"// Get the body",
+											"var jsonData = pm.response.json();",
+											"",
+											"var openapi_type = jsonData.schema.type;",
+											"var openapi_language = jsonData.schema.language;",
+											"var schema_body = jsonData.schema.schema;",
+											"",
+											"// We are only doing for OpenAPI right now",
+											"if(openapi_type=='openapi3'){",
+											"",
+											"    if(openapi_language=='yaml'){",
+											"        try {",
+											"          var oas = jsyaml.load(schema_body);",
+											"        } catch (e) {",
+											"          console.log(e);",
+											"        }  ",
+											"    }",
+											"    else{",
+											"        try {",
+											"          var oas = JSON.parse(schema_body);",
+											"        } catch (e) {",
+											"          console.log(e);",
+											"        }                                             ",
+											"    }",
+											"",
+											"    var all_methods_have_2xx = 1;",
+											"",
+											"    if(oas.paths){",
+											"",
+											"        var paths = oas.paths;",
+											"        ",
+											"        for (const [path, methods] of Object.entries(paths)) {",
+											"        ",
+											"            console.log(path);",
+											"        ",
+											"            for (const [verb, method] of Object.entries(methods)) {",
+											"                ",
+											"                console.log(verb);",
+											"                ",
+											"                //console.log(method);",
+											"                ",
+											"                var response = method.responses;",
+											"                ",
+											"                console.log(response);",
+											"                ",
+											"                if(response['200']){",
+											"                    var have_2xx_response = 1;",
+											"                    console.log(\"200\");",
+											"                }",
+											"                else if(response['201']){",
+											"                    var have_2xx_response = 1;",
+											"                    console.log(\"201\");",
+											"                }   ",
+											"                else if(response['202']){",
+											"                    var have_2xx_response = 1;",
+											"                    console.log(\"201\");",
+											"                }             ",
+											"                else if(response['204']){",
+											"                    var have_2xx_response = 1;",
+											"                    console.log(\"204\");",
+											"                }            ",
+											"                else{",
+											"",
+											"                    var have_2xx_response = 0;",
+											"                    all_methods_have_2xx = 0;",
+											"                    pm.test(path + ' - ' + verb + ' method does not have a 200 series response.', function () {",
+											"                        pm.expect(have_2xx_response).to.eql(1);",
+											"                    });   ",
+											"                    ",
+											"                }            ",
+											"                ",
+											"            }       ",
+											"            ",
+											"        }",
+											"",
+											"    } ",
+											"",
+											"    pm.environment.set(\"Do all methods have an HTTP Status Success (2xx)?\", all_methods_have_2xx);",
+											"",
+											"    pm.test(\"Do all methods have an HTTP Status Success (2xx)?\", function () {",
+											"        pm.expect(all_methods_have_2xx).to.eql(1);",
+											"    });",
+											"",
+											"  }",
+											"else{",
+											"  pm.test(\"Do all methods have an HTTP Status Success (2xx)?\", function () {",
+											"      pm.expect(0).to.eql(1);",
+											"  });  ",
+											"}      "
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "{{postman_api_key}}",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "x-api-key",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://api.getpostman.com/apis/:api_id/versions/:version_id/schemas/:schema_id",
+									"protocol": "https",
+									"host": [
+										"api",
+										"getpostman",
+										"com"
+									],
+									"path": [
+										"apis",
+										":api_id",
+										"versions",
+										":version_id",
+										"schemas",
+										":schema_id"
+									],
+									"variable": [
+										{
+											"key": "api_id",
+											"value": "{{postman_api_id}}",
+											"type": "string"
+										},
+										{
+											"key": "version_id",
+											"value": "{{postman_version_id}}",
+											"type": "string"
+										},
+										{
+											"key": "schema_id",
+											"value": "{{postman_schema_id}}",
+											"type": "string"
+										}
+									]
+								},
+								"description": "Checks to see if all methods have a 2xx response."
+							},
+							"response": []
+						},
+						{
+							"name": "Do all methods have an HTTP Status Failure (5xx)?",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// We need a YAML library",
+											"const yaml =  pm.environment.get('js_yaml');",
+											"(new Function(yaml))();",
+											"",
+											"// Get the body",
+											"var jsonData = pm.response.json();",
+											"",
+											"var openapi_type = jsonData.schema.type;",
+											"var openapi_language = jsonData.schema.language;",
+											"var schema_body = jsonData.schema.schema;",
+											"",
+											"// We are only doing for OpenAPI right now",
+											"if(openapi_type=='openapi3'){",
+											"",
+											"    if(openapi_language=='yaml'){",
+											"        try {",
+											"          var oas = jsyaml.load(schema_body);",
+											"        } catch (e) {",
+											"          console.log(e);",
+											"        }  ",
+											"    }",
+											"    else{",
+											"        try {",
+											"          var oas = JSON.parse(schema_body);",
+											"        } catch (e) {",
+											"          console.log(e);",
+											"        }                                             ",
+											"    }",
+											"",
+											"    var all_methods_have_5xx = 1;",
+											"",
+											"    if(oas.paths){",
+											"",
+											"        var paths = oas.paths;",
+											"        ",
+											"        for (const [path, methods] of Object.entries(paths)) {",
+											"        ",
+											"            console.log(path);",
+											"        ",
+											"            for (const [verb, method] of Object.entries(methods)) {",
+											"                ",
+											"                console.log(verb);",
+											"                ",
+											"                //console.log(method);",
+											"                ",
+											"                var response = method.responses;",
+											"                ",
+											"                console.log(response);",
+											"                ",
+											"                if(response['500']){",
+											"                    var have_5xx_response = 1;",
+											"                    console.log(\"500\");",
+											"                }",
+											"                else if(response['501']){",
+											"                    var have_5xx_response = 1;",
+											"                    console.log(\"501\");",
+											"                }             ",
+											"                else{",
+											"                    console.log(\"NONE\");",
+											"                    var have_5xx_response = 0;",
+											"                    all_methods_have_5xx = 0;",
+											"                    pm.test(path + ' - ' + verb + ' method does not have a 500 series response.', function () {",
+											"                        pm.expect(have_5xx_response).to.eql(1);",
+											"                    });                ",
+											"                }            ",
+											"                ",
+											"            }       ",
+											"            ",
+											"        }",
+											"",
+											"    } ",
+											"",
+											"    pm.environment.set(\"Do all methods have an HTTP Status Failure (5xx)?\", all_methods_have_5xx);",
+											"",
+											"    pm.test(\"Do all methods have an HTTP Status Failure (5xx)?\", function () {",
+											"        pm.expect(all_methods_have_5xx).to.eql(1);",
+											"    });",
+											"",
+											"  }",
+											"else{",
+											"  pm.test(\"Do all methods have an HTTP Status Failure (5xx)?\", function () {",
+											"      pm.expect(0).to.eql(1);",
+											"  });  ",
+											"}      "
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "{{postman_api_key}}",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "x-api-key",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://api.getpostman.com/apis/:api_id/versions/:version_id/schemas/:schema_id",
+									"protocol": "https",
+									"host": [
+										"api",
+										"getpostman",
+										"com"
+									],
+									"path": [
+										"apis",
+										":api_id",
+										"versions",
+										":version_id",
+										"schemas",
+										":schema_id"
+									],
+									"variable": [
+										{
+											"key": "api_id",
+											"value": "{{postman_api_id}}",
+											"type": "string"
+										},
+										{
+											"key": "version_id",
+											"value": "{{postman_version_id}}",
+											"type": "string"
+										},
+										{
+											"key": "schema_id",
+											"value": "{{postman_schema_id}}",
+											"type": "string"
+										}
+									]
+								},
+								"description": "Checks to see if all methods have a 5xx response."
+							},
+							"response": []
+						}
+					],
+					"description": "Moving beyond the request surface area of each API, this area of governance is about shaping the response for each individual API method. Helping establish the rules for how each response should be returned, providing a consistent experience across all APIs, reducing friction when it comes to integrating Union Fashion resources in internal, partner, and public applications.",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Does GET, POST, PUT, and DELEETE exist for all resources?",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// We need a YAML library",
+									"const yaml =  pm.environment.get('js_yaml');",
+									"(new Function(yaml))();",
+									"",
+									"// Get the body",
+									"var jsonData = pm.response.json();",
+									"",
+									"var openapi_type = jsonData.schema.type;",
+									"var openapi_language = jsonData.schema.language;",
+									"var schema_body = jsonData.schema.schema;",
+									"",
+									"// We are only doing for OpenAPI right now",
+									"if(openapi_type=='openapi3'){",
+									"",
+									"    if(openapi_language=='yaml'){",
+									"        try {",
+									"          var oas = jsyaml.load(schema_body);",
+									"        } catch (e) {",
+									"          console.log(e);",
+									"        }  ",
+									"    }",
+									"    else{",
+									"        try {",
+									"          var oas = JSON.parse(schema_body);",
+									"        } catch (e) {",
+									"          console.log(e);",
+									"        }                                             ",
+									"    }",
+									"                    ",
+									"    var has_api_paths = 0;",
+									"",
+									"    if(oas.paths){",
+									"",
+									"        var last_path = '';",
+									"        var paths = oas.paths;",
+									"        ",
+									"        for (const [path, methods] of Object.entries(paths)) {",
+									"        ",
+									"            console.log(path);",
+									"            ",
+									"            ",
+									"            // LEFT OFF HERE",
+									"            if(last_path==''){",
+									"                last_path = path;",
+									"            }",
+									"            else{",
+									"                last_path = path;",
+									"            }",
+									"        ",
+									"            for (const [verb, method] of Object.entries(methods)) {",
+									"                ",
+									"                console.log(verb);",
+									"                ",
+									"                console.log(method);",
+									"                ",
+									"                // Need to craft the right algorithm here.",
+									"                ",
+									"                var verbs_used = 1;                        ",
+									"                ",
+									"            }       ",
+									"            ",
+									"        }",
+									"",
+									"    } ",
+									"",
+									"    pm.test(\"Does GET, POST, PUT, and DELETE exist for all resources?\", function () {",
+									"        pm.expect(verbs_used).to.eql(1);",
+									"    });       ",
+									"",
+									"  }",
+									"else{",
+									"  pm.test(\"Does GET, POST, PUT, and DELETE exist for all resources?\", function () {",
+									"      pm.expect(0).to.eql(1);",
+									"  });  ",
+									"}      "
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{postman_api_key}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "x-api-key",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Api-Key",
+								"value": "{{postman_api_key}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://api.getpostman.com/apis/:api_id/versions/:version_id/schemas/:schema_id",
+							"protocol": "https",
+							"host": [
+								"api",
+								"getpostman",
+								"com"
+							],
+							"path": [
+								"apis",
+								":api_id",
+								"versions",
+								":version_id",
+								"schemas",
+								":schema_id"
+							],
+							"variable": [
+								{
+									"key": "api_id",
+									"value": "{{postman_api_id}}",
+									"type": "string"
+								},
+								{
+									"key": "version_id",
+									"value": "{{postman_version_id}}",
+									"type": "string"
+								},
+								{
+									"key": "schema_id",
+									"value": "{{postman_schema_id}}",
+									"type": "string"
+								}
+							]
+						},
+						"description": "This checks to make sure all resources have a GET, POST, PUT, and DELETE, providing a full CRUD profile for each unique resource - still working on this one."
+					},
+					"response": []
+				},
+				{
+					"name": "Do all methods have summaries?",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// We need a YAML library",
+									"const yaml =  pm.environment.get('js_yaml');",
+									"(new Function(yaml))();",
+									"",
+									"// Get the body",
+									"var jsonData = pm.response.json();",
+									"",
+									"var openapi_type = jsonData.schema.type;",
+									"var openapi_language = jsonData.schema.language;",
+									"var schema_body = jsonData.schema.schema;",
+									"",
+									"// We are only doing for OpenAPI right now",
+									"if(openapi_type=='openapi3'){",
+									"",
+									"    if(openapi_language=='yaml'){",
+									"        try {",
+									"          var oas = jsyaml.load(schema_body);",
+									"        } catch (e) {",
+									"          console.log(e);",
+									"        }  ",
+									"    }",
+									"    else{",
+									"        try {",
+									"          var oas = JSON.parse(schema_body);",
+									"        } catch (e) {",
+									"          console.log(e);",
+									"        }                                             ",
+									"    }",
+									"",
+									"    var has_api_paths = 0;",
+									"",
+									"    var all_api_paths_have_summary = 1;",
+									"",
+									"    if(oas.paths){",
+									"",
+									"        var paths = oas.paths;",
+									"        ",
+									"        for (const [path, methods] of Object.entries(paths)) {",
+									"        ",
+									"            console.log(path);",
+									"        ",
+									"            for (const [verb, method] of Object.entries(methods)) {",
+									"                ",
+									"                console.log(verb);",
+									"                ",
+									"                console.log(method);",
+									"                ",
+									"                var has_method_summary = 0;",
+									"                if(method.summary){",
+									"                ",
+									"                    // Is method summary > 5",
+									"                    if(method.summary.length > 5){",
+									"                    has_method_summary = 1;  ",
+									"                    }     ",
+									"                    else{",
+									"                        has_method_summary = 0;",
+									"                    }",
+									"                    ",
+									"                }",
+									"                ",
+									"            if(has_method_summary===0){",
+									"                pm.test(path + \" does not have a summary\", function () {",
+									"                    pm.expect(has_method_summary).to.eql(1);",
+									"                });      ",
+									"                all_api_paths_have_summary = 0;",
+									"            }",
+									"                ",
+									"                ",
+									"            }       ",
+									"            ",
+									"        }",
+									"",
+									"    } ",
+									"",
+									"    pm.environment.set(\"Do all methods have summaries?\", all_api_paths_have_summary);",
+									"",
+									"    pm.test(\"Do all methods have summaries?\", function () {",
+									"        pm.expect(all_api_paths_have_summary).to.eql(1);",
+									"    });",
+									"  }",
+									"else{",
+									"  pm.test(\"Do all methods have summaries?\", function () {",
+									"      pm.expect(0).to.eql(1);",
+									"  });  ",
+									"}      "
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{postman_api_key}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "x-api-key",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://api.getpostman.com/apis/:api_id/versions/:version_id/schemas/:schema_id",
+							"protocol": "https",
+							"host": [
+								"api",
+								"getpostman",
+								"com"
+							],
+							"path": [
+								"apis",
+								":api_id",
+								"versions",
+								":version_id",
+								"schemas",
+								":schema_id"
+							],
+							"variable": [
+								{
+									"key": "api_id",
+									"value": "{{postman_api_id}}",
+									"type": "string"
+								},
+								{
+									"key": "version_id",
+									"value": "{{postman_version_id}}",
+									"type": "string"
+								},
+								{
+									"key": "schema_id",
+									"value": "{{postman_schema_id}}",
+									"type": "string"
+								}
+							]
+						},
+						"description": "Checks to see if all methods have summaries written for them."
+					},
+					"response": []
+				},
+				{
+					"name": "Do all methods have descriptions?",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// We need a YAML library",
+									"const yaml =  pm.environment.get('js_yaml');",
+									"(new Function(yaml))();",
+									"",
+									"// Get the body",
+									"var jsonData = pm.response.json();",
+									"",
+									"var openapi_type = jsonData.schema.type;",
+									"var openapi_language = jsonData.schema.language;",
+									"var schema_body = jsonData.schema.schema;",
+									"",
+									"// We are only doing for OpenAPI right now",
+									"if(openapi_type=='openapi3'){",
+									"",
+									"    if(openapi_language=='yaml'){",
+									"        try {",
+									"          var oas = jsyaml.load(schema_body);",
+									"        } catch (e) {",
+									"          console.log(e);",
+									"        }  ",
+									"    }",
+									"    else{",
+									"        try {",
+									"          var oas = JSON.parse(schema_body);",
+									"        } catch (e) {",
+									"          console.log(e);",
+									"        }                                             ",
+									"    }",
+									"",
+									"    var has_api_paths = 0;",
+									"",
+									"    var all_api_paths_have_description = 1;",
+									"",
+									"    if(oas.paths){",
+									"",
+									"        var paths = oas.paths;",
+									"        ",
+									"        for (const [path, methods] of Object.entries(paths)) {",
+									"        ",
+									"            console.log(path);",
+									"        ",
+									"            for (const [verb, method] of Object.entries(methods)) {",
+									"                ",
+									"                console.log(verb);",
+									"                ",
+									"                console.log(method);",
+									"                ",
+									"                var has_method_description = 0;",
+									"                if(method.description){",
+									"                ",
+									"                    // Is method summary > 5",
+									"                    if(method.description.length > 5){",
+									"                        has_method_description = 1;  ",
+									"                    }     ",
+									"                    else{",
+									"                        has_method_description = 0;",
+									"                    }",
+									"                    ",
+									"                }",
+									"                ",
+									"            if(has_method_description===0){",
+									"                pm.test(path + \" does not have a description\", function () {",
+									"                    pm.expect(has_method_description).to.eql(1);",
+									"                });      ",
+									"                all_api_paths_have_description = 0;",
+									"            }",
+									"                ",
+									"                ",
+									"            }       ",
+									"            ",
+									"        }",
+									"",
+									"    } ",
+									"",
+									"    pm.environment.set(\"Do all methods have summaries?\", all_api_paths_have_description);",
+									"",
+									"    pm.test(\"Do all methods have descriptions?\", function () {",
+									"        pm.expect(all_api_paths_have_description).to.eql(1);",
+									"    });",
+									"  }",
+									"else{",
+									"  pm.test(\"Do all methods have descriptions?\", function () {",
+									"      pm.expect(0).to.eql(1);",
+									"  });  ",
+									"}      "
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{postman_api_key}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "x-api-key",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://api.getpostman.com/apis/:api_id/versions/:version_id/schemas/:schema_id",
+							"protocol": "https",
+							"host": [
+								"api",
+								"getpostman",
+								"com"
+							],
+							"path": [
+								"apis",
+								":api_id",
+								"versions",
+								":version_id",
+								"schemas",
+								":schema_id"
+							],
+							"variable": [
+								{
+									"key": "api_id",
+									"value": "{{postman_api_id}}",
+									"type": "string"
+								},
+								{
+									"key": "version_id",
+									"value": "{{postman_version_id}}",
+									"type": "string"
+								},
+								{
+									"key": "schema_id",
+									"value": "{{postman_schema_id}}",
+									"type": "string"
+								}
+							]
+						},
+						"description": "Checks to see if all methods have descriptions written for them, and checks the length."
+					},
+					"response": []
+				},
+				{
+					"name": "Do all methods have operation ids?",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// We need a YAML library",
+									"const yaml =  pm.environment.get('js_yaml');",
+									"(new Function(yaml))();",
+									"",
+									"// Get the body",
+									"var jsonData = pm.response.json();",
+									"",
+									"var openapi_type = jsonData.schema.type;",
+									"var openapi_language = jsonData.schema.language;",
+									"var schema_body = jsonData.schema.schema;",
+									"",
+									"// We are only doing for OpenAPI right now",
+									"if(openapi_type=='openapi3'){",
+									"",
+									"    if(openapi_language=='yaml'){",
+									"        try {",
+									"          var oas = jsyaml.load(schema_body);",
+									"        } catch (e) {",
+									"          console.log(e);",
+									"        }  ",
+									"    }",
+									"    else{",
+									"        try {",
+									"          var oas = JSON.parse(schema_body);",
+									"        } catch (e) {",
+									"          console.log(e);",
+									"        }                                             ",
+									"    }",
+									"",
+									"    var has_api_paths = 0;",
+									"",
+									"    var all_api_paths_have_operation_id = 1;",
+									"",
+									"    if(oas.paths){",
+									"",
+									"        var paths = oas.paths;",
+									"        ",
+									"        for (const [path, methods] of Object.entries(paths)) {",
+									"        ",
+									"            console.log(path);",
+									"        ",
+									"            for (const [verb, method] of Object.entries(methods)) {",
+									"                ",
+									"                console.log(verb);",
+									"                ",
+									"                console.log(method);",
+									"                ",
+									"                var has_method_operation_id = 0;",
+									"                if(method.operationId){",
+									"                ",
+									"                    // Is method summary > 5",
+									"                    if(method.operationId.length > 5){",
+									"                    has_method_operation_id = 1;  ",
+									"                    }     ",
+									"                    else{",
+									"                        has_method_operation_id = 0;",
+									"                    }",
+									"                    ",
+									"                }",
+									"                ",
+									"            if(has_method_operation_id===0){",
+									"                pm.test(path + \" does not have an operationId\", function () {",
+									"                    pm.expect(has_method_operation_id).to.eql(1);",
+									"                });      ",
+									"                all_api_paths_have_operation_id = 0;",
+									"            }",
+									"                ",
+									"                ",
+									"            }       ",
+									"            ",
+									"        }",
+									"",
+									"    } ",
+									"",
+									"    pm.environment.set(\"Do all methods have operation ids?\", all_api_paths_have_operation_id);",
+									"",
+									"    pm.test(\"Do all methods have operation ids?\", function () {",
+									"        pm.expect(all_api_paths_have_operation_id).to.eql(1);",
+									"    });",
+									"  }",
+									"else{",
+									"  pm.test(\"Do all methods have operation ids?\", function () {",
+									"      pm.expect(0).to.eql(1);",
+									"  });  ",
+									"}      "
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{postman_api_key}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "x-api-key",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://api.getpostman.com/apis/:api_id/versions/:version_id/schemas/:schema_id",
+							"protocol": "https",
+							"host": [
+								"api",
+								"getpostman",
+								"com"
+							],
+							"path": [
+								"apis",
+								":api_id",
+								"versions",
+								":version_id",
+								"schemas",
+								":schema_id"
+							],
+							"variable": [
+								{
+									"key": "api_id",
+									"value": "{{postman_api_id}}",
+									"type": "string"
+								},
+								{
+									"key": "version_id",
+									"value": "{{postman_version_id}}",
+									"type": "string"
+								},
+								{
+									"key": "schema_id",
+									"value": "{{postman_schema_id}}",
+									"type": "string"
+								}
+							]
+						},
+						"description": "Checks to see if all methods have operationIds written for them."
+					},
+					"response": []
+				},
+				{
+					"name": "Do all methods have tags?",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// We need a YAML library",
+									"const yaml =  pm.environment.get('js_yaml');",
+									"(new Function(yaml))();",
+									"",
+									"// Get the body",
+									"var jsonData = pm.response.json();",
+									"",
+									"var openapi_type = jsonData.schema.type;",
+									"var openapi_language = jsonData.schema.language;",
+									"var schema_body = jsonData.schema.schema;",
+									"",
+									"// We are only doing for OpenAPI right now",
+									"if(openapi_type=='openapi3'){",
+									"",
+									"    if(openapi_language=='yaml'){",
+									"        try {",
+									"          var oas = jsyaml.load(schema_body);",
+									"        } catch (e) {",
+									"          console.log(e);",
+									"        }  ",
+									"    }",
+									"    else{",
+									"        try {",
+									"          var oas = JSON.parse(schema_body);",
+									"        } catch (e) {",
+									"          console.log(e);",
+									"        }                                             ",
+									"    }",
+									"",
+									"    var all_methods_have_tags = 1;",
+									"",
+									"    if(oas.paths){",
+									"",
+									"        var paths = oas.paths;",
+									"        ",
+									"        for (const [path, methods] of Object.entries(paths)) {",
+									"        ",
+									"            console.log(path);",
+									"        ",
+									"            for (const [verb, method] of Object.entries(methods)) {",
+									"                ",
+									"                console.log(verb);",
+									"                ",
+									"                console.log(method);",
+									"                ",
+									"                var tags = method.tags;",
+									"                console.log(tags);",
+									"                var tag_count = tags.length;",
+									"                console.log(tag_count);",
+									"                if(tag_count > 0){",
+									"                    var have_tags = 1;",
+									"                }",
+									"                else{",
+									"                    var have_tags = 0;",
+									"                    all_methods_have_tags = 0;",
+									"                    pm.test(path + ' - ' + verb + ' method does not have tags.', function () {",
+									"                        pm.expect(have_tags).to.eql(1);",
+									"                    });                ",
+									"                }",
+									"                ",
+									"            }       ",
+									"            ",
+									"        }",
+									"",
+									"    } ",
+									"",
+									"    pm.environment.set(\"Do all methods have operation ids?\", all_methods_have_tags);",
+									"",
+									"    pm.test(\"Do all methods have tags?\", function () {",
+									"        pm.expect(all_methods_have_tags).to.eql(1);",
+									"    });",
+									"",
+									"  }",
+									"else{",
+									"  pm.test(\"Do all methods have tags?\", function () {",
+									"      pm.expect(0).to.eql(1);",
+									"  });  ",
+									"}      "
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{postman_api_key}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "x-api-key",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://api.getpostman.com/apis/:api_id/versions/:version_id/schemas/:schema_id",
+							"protocol": "https",
+							"host": [
+								"api",
+								"getpostman",
+								"com"
+							],
+							"path": [
+								"apis",
+								":api_id",
+								"versions",
+								":version_id",
+								"schemas",
+								":schema_id"
+							],
+							"variable": [
+								{
+									"key": "api_id",
+									"value": "{{postman_api_id}}",
+									"type": "string"
+								},
+								{
+									"key": "version_id",
+									"value": "{{postman_version_id}}",
+									"type": "string"
+								},
+								{
+									"key": "schema_id",
+									"value": "{{postman_schema_id}}",
+									"type": "string"
+								}
+							]
+						},
+						"description": "Make sure all methods have some tags."
+					},
+					"response": []
+				}
+			],
+			"description": "These governance requests are about interrogating each individual method of an API, helping set guidelines for how APIs are structured, using a common vocabulary for making data available. Defining the vocabulary of the Union Fashion operations, ensuring that we all speak the same language when it comes to working with Union Fashion digital assets.",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Schema",
+			"item": [
+				{
+					"name": "Do all schema have properties?",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// We need a YAML library",
+									"const yaml =  pm.environment.get('js_yaml');",
+									"(new Function(yaml))();",
+									"",
+									"// Get the body",
+									"var jsonData = pm.response.json();",
+									"",
+									"var openapi_type = jsonData.schema.type;",
+									"var openapi_language = jsonData.schema.language;",
+									"var schema_body = jsonData.schema.schema;",
+									"",
+									"// We are only doing for OpenAPI right now",
+									"if(openapi_type=='openapi3'){",
+									"",
+									"    if(openapi_language=='yaml'){",
+									"        try {",
+									"          var oas = jsyaml.load(schema_body);",
+									"        } catch (e) {",
+									"          console.log(e);",
+									"        }  ",
+									"    }",
+									"    else{",
+									"        try {",
+									"          var oas = JSON.parse(schema_body);",
+									"        } catch (e) {",
+									"          console.log(e);",
+									"        }                                             ",
+									"    }",
+									"",
+									"    var all_schema_have_properties = 1;",
+									"",
+									"    var schemas = oas.components.schemas;",
+									"",
+									"    for (const [schema_name, schema] of Object.entries(schemas)) {",
+									"    ",
+									"    console.log(schema_name); ",
+									"    ",
+									"    if(schema.properties){",
+									"        var properties = schema.properties;",
+									"        console.log(\"has properties\");",
+									"        console.log(properties);",
+									"    }",
+									"    else{",
+									"        if(schema.type){",
+									"            ",
+									"            if(schema.type== 'array'){",
+									"                console.log(\"no properties -- array\");    ",
+									"                }",
+									"            else{",
+									"                console.log(\"no properties -- \" + schema.type);    ",
+									"                all_schema_have_properties = 0;",
+									"                no_properties = 0;",
+									"                pm.test(\"All schema for this API have properties\", function () {",
+									"                    pm.expect(no_properties).to.eql(1);",
+									"                });            ",
+									"                ",
+									"            }",
+									"            ",
+									"        }",
+									"    }",
+									"    }",
+									"",
+									"    pm.environment.set(\"Do all schema have properties?\", all_schema_have_properties);",
+									"",
+									"    pm.test(\"Do all schema have properties?\", function () {",
+									"        pm.expect(all_schema_have_properties).to.eql(1);",
+									"    });",
+									"",
+									"  }",
+									"else{",
+									"  pm.test(\"Do all schema have properties?\", function () {",
+									"      pm.expect(0).to.eql(1);",
+									"  });  ",
+									"}  "
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{postman_api_key}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "x-api-key",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://api.getpostman.com/apis/:api_id/versions/:version_id/schemas/:schema_id",
+							"protocol": "https",
+							"host": [
+								"api",
+								"getpostman",
+								"com"
+							],
+							"path": [
+								"apis",
+								":api_id",
+								"versions",
+								":version_id",
+								"schemas",
+								":schema_id"
+							],
+							"variable": [
+								{
+									"key": "api_id",
+									"value": "{{postman_api_id}}",
+									"type": "string"
+								},
+								{
+									"key": "version_id",
+									"value": "{{postman_version_id}}",
+									"type": "string"
+								},
+								{
+									"key": "schema_id",
+									"value": "{{postman_schema_id}}",
+									"type": "string"
+								}
+							]
+						},
+						"description": "Checks to make sure all schema have properties."
+					},
+					"response": []
+				},
+				{
+					"name": "Do all schema properties have descriptions?",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// We need a YAML library",
+									"const yaml =  pm.environment.get('js_yaml');",
+									"(new Function(yaml))();",
+									"",
+									"// Get the body",
+									"var jsonData = pm.response.json();",
+									"",
+									"var openapi_type = jsonData.schema.type;",
+									"var openapi_language = jsonData.schema.language;",
+									"var schema_body = jsonData.schema.schema;",
+									"",
+									"// We are only doing for OpenAPI right now",
+									"if(openapi_type=='openapi3'){",
+									"",
+									"    if(openapi_language=='yaml'){",
+									"        try {",
+									"          var oas = jsyaml.load(schema_body);",
+									"        } catch (e) {",
+									"          console.log(e);",
+									"        }  ",
+									"    }",
+									"    else{",
+									"        try {",
+									"          var oas = JSON.parse(schema_body);",
+									"        } catch (e) {",
+									"          console.log(e);",
+									"        }                                             ",
+									"    }",
+									"",
+									"    var all_schema_properties_have_descriptions = 1;",
+									"",
+									"    var schemas = oas.components.schemas;",
+									"",
+									"    for (const [schema_name, schema] of Object.entries(schemas)) {",
+									"    ",
+									"    if(schema.properties){",
+									"        for (const [property_name, property] of Object.entries(schema.properties)) {",
+									"        console.log(property_name);",
+									"        ",
+									"                if(property.description){",
+									"                ",
+									"                    description = property.description;",
+									"                    ",
+									"                    // Description is greater than 100",
+									"                    var greater_than_hundred = 0;",
+									"                    if(description.length > 100){",
+									"                    greater_than_hundred = 1;  ",
+									"                    }",
+									"                    ",
+									"                    // Description is less than 1000",
+									"                    var less_than_thousand = 0;",
+									"                    if(description.length < 1000){",
+									"                    less_than_thousand = 1;  ",
+									"                    }        ",
+									"                    ",
+									"                    pm.test(schema_name + ' - ' + property_name + ' description is greater than 100', function () {",
+									"                        pm.expect(greater_than_hundred).to.eql(1);",
+									"                    });",
+									"                    ",
+									"                    pm.test(schema_name + ' - ' + property_name + ' description is less than 1000', function () {",
+									"                        pm.expect(less_than_thousand).to.eql(1);",
+									"                    });",
+									"                    ",
+									"                    ",
+									"                ",
+									"                }",
+									"                else{",
+									"                    var all_schema_properties_have_descriptions = 0;",
+									"                    ",
+									"                    no_description = 0;  ",
+									"                    pm.test(schema_name + ' - ' + property_name + ' does not have a description', function () {",
+									"                        pm.expect(no_description).to.eql(1);",
+									"                    });                ",
+									"                    ",
+									"                }       ",
+									"        ",
+									"        ",
+									"        }",
+									"    }",
+									"    ",
+									"    }",
+									"",
+									"    pm.environment.set(\"Do all schema properties have descriptions?\", all_schema_properties_have_descriptions);",
+									"",
+									"    pm.test(\"Do all schema properties have descriptions?\", function () {",
+									"        pm.expect(all_schema_properties_have_descriptions).to.eql(1);",
+									"    });",
+									"",
+									"  }",
+									"else{",
+									"  pm.test(\"Do all schema properties have descriptions?\", function () {",
+									"      pm.expect(0).to.eql(1);",
+									"  });  ",
+									"}      "
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{postman_api_key}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "x-api-key",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://api.getpostman.com/apis/:api_id/versions/:version_id/schemas/:schema_id",
+							"protocol": "https",
+							"host": [
+								"api",
+								"getpostman",
+								"com"
+							],
+							"path": [
+								"apis",
+								":api_id",
+								"versions",
+								":version_id",
+								"schemas",
+								":schema_id"
+							],
+							"variable": [
+								{
+									"key": "api_id",
+									"value": "{{postman_api_id}}",
+									"type": "string"
+								},
+								{
+									"key": "version_id",
+									"value": "{{postman_version_id}}",
+									"type": "string"
+								},
+								{
+									"key": "schema_id",
+									"value": "{{postman_schema_id}}",
+									"type": "string"
+								}
+							]
+						},
+						"description": "Checks to see if all schema properties have descriptions."
+					},
+					"response": []
+				}
+			],
+			"description": "Next, we want to drill further into the schema that is used as part of the request and response structure of each API. Being more organized about how schema are used as part of the request body, and returned with each response, making sure the schema used across the platform are part of a larger strategy for managing the structure of digital resources.",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Reporting",
+			"item": [
+				{
+					"name": "Visualize the governance outline",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var response = pm.response.json();",
+									"",
+									"// parse the query string",
+									"const paramsString = request.url.split('?')[1];",
+									"const eachParamArray = paramsString.split('&');",
+									"let params = {};",
+									"eachParamArray.forEach((param) => {",
+									"    const key = param.split('=')[0];",
+									"    const value = param.split('=')[1];",
+									"    Object.assign(params, { [key]: value });",
+									"});",
+									"",
+									"//console.log(params.environment_name);",
+									"",
+									"var postman_api_key = pm.environment.get(\"postman_api_key\");",
+									"",
+									"for (c = 0; c < response.collections.length; c++) {",
+									"",
+									"    if (response.collections[c].name == 'Governance - Design') {",
+									"",
+									"        // Get the collection",
+									"        collectionRequest = {",
+									"            url: 'https://api.getpostman.com/collections/' + response.collections[c].id,",
+									"            method: 'GET',",
+									"            header: 'X-Api-Key:' + postman_api_key,",
+									"        };",
+									"",
+									"        pm.sendRequest(collectionRequest, function (err, res) {",
+									"",
+									"            if (err) {",
+									"                console.log(err);",
+									"            } else {",
+									"",
+									"                var response = res.json();",
+									"                var items_1 = response.collection.item;",
+									"",
+									"                var outline = '<ul>';",
+									"",
+									"                for (aIndex = 0; aIndex < items_1.length; aIndex++) {",
+									"",
+									"                    var is_request = 0;",
+									"                    if (items_1[aIndex].request) {",
+									"                        is_request = 1;",
+									"                    }",
+									"",
+									"                    name = items_1[aIndex].name;",
+									"                    description = items_1[aIndex].description;",
+									"",
+									"                    // Exclude Some",
+									"                    if (name != 'Reporting' && name != 'Pull API Into Environment') {",
+									"",
+									"                        var verb = \"\";",
+									"                        if (items_1[aIndex].request) {",
+									"                            if (items_1[aIndex].request.method) {",
+									"                                verb = items_1[aIndex].request.method;",
+									"                            }",
+									"                        }",
+									"",
+									"                        if (is_request == 1) {",
+									"                            var this_variable = pm.environment.get(name);",
+									"                            if (this_variable == 1) {",
+									"                                pass = \"&#9989;\";",
+									"                            }",
+									"                            else {",
+									"                                pass = \"&#x274C;\";",
+									"                            }",
+									"                            outline = outline + '<li>' + name + ' ' + pass;",
+									"                        }",
+									"                        else {",
+									"                            outline = outline + '<li><strong>' + name + '</strong>';",
+									"                        }",
+									"",
+									"                        if (items_1[aIndex].item) {",
+									"",
+									"                            items_2 = items_1[aIndex].item;",
+									"",
+									"                            if (items_2.length > 0) {",
+									"",
+									"                                outline = outline + '<ul>';",
+									"",
+									"                                for (bIndex = 0; bIndex < items_2.length; bIndex++) {",
+									"",
+									"                                    var is_request = 0;",
+									"                                    if (items_2[bIndex].request) {",
+									"                                        is_request = 1;",
+									"                                    }",
+									"",
+									"                                    name = items_2[bIndex].name;",
+									"                                    description = items_2[bIndex].description;",
+									"",
+									"                                    var verb = \"\";",
+									"                                    if (items_2[bIndex].request) {",
+									"                                        if (items_2[bIndex].request.method) {",
+									"                                            verb = items_2[bIndex].request.method;",
+									"                                        }",
+									"                                    }",
+									"",
+									"                                    if (is_request == 1) {",
+									"",
+									"                                        var this_variable = pm.environment.get(name);",
+									"                                        if (this_variable == 1) {",
+									"                                            pass = \"&#9989;\";",
+									"                                        }",
+									"                                        else {",
+									"                                            pass = \"&#x274C;\";",
+									"                                        }",
+									"                                        outline = outline + '<li>' + name + ' ' + pass;",
+									"",
+									"                                    }",
+									"                                    else {",
+									"                                        outline = outline + '<li><strong>' + name + '</strong>';",
+									"                                    }",
+									"",
+									"                                    if (items_2[bIndex].item) {",
+									"",
+									"                                        items_3 = items_2[bIndex].item;",
+									"",
+									"                                        if (items_3.length > 0) {",
+									"",
+									"                                            outline = outline + '<ul>';",
+									"",
+									"                                            for (cIndex = 0; cIndex < items_3.length; cIndex++) {",
+									"",
+									"                                                var is_request = 0;",
+									"                                                if (items_3[cIndex].request) {",
+									"                                                    is_request = 1;",
+									"                                                }",
+									"",
+									"                                                name = items_3[cIndex].name;",
+									"                                                description = items_3[cIndex].description;",
+									"",
+									"                                                var verb = \"\";",
+									"                                                if (items_3[cIndex].request) {",
+									"                                                    if (items_3[cIndex].request.method) {",
+									"                                                        verb = items_3[cIndex].request.method;",
+									"                                                    }",
+									"                                                }",
+									"",
+									"                                                var this_variable = pm.environment.get(name);",
+									"                                                if (this_variable == 1) {",
+									"                                                    pass = \"&#9989;\";",
+									"                                                }",
+									"                                                else {",
+									"                                                    pass = \"&#x274C;\";",
+									"                                                }",
+									"",
+									"                                                if (is_request == 1) {",
+									"",
+									"                                                    var this_variable = pm.environment.get(name);",
+									"                                                    if (this_variable == 1) {",
+									"                                                        pass = \"&#9989;\";",
+									"                                                    }",
+									"                                                    else {",
+									"                                                        pass = \"&#x274C;\";",
+									"                                                    }",
+									"                                                    outline = outline + '<li>' + name + ' ' + pass + '</strong></li>';",
+									"",
+									"                                                }",
+									"                                                else {",
+									"                                                    outline = outline + '<li><strong>' + name + '</strong></li>';",
+									"                                                }",
+									"",
+									"                                            }",
+									"                                            outline = outline + '</ul>';",
+									"                                        }",
+									"                                    }",
+									"",
+									"                                    outline = outline + '</li>';",
+									"",
+									"                                }",
+									"                                outline = outline + '</ul>';",
+									"                            }",
+									"",
+									"                            outline = outline + '</li>';",
+									"                        }",
+									"                    }",
+									"                }",
+									"",
+									"                outline = outline + '</ul>';",
+									"                pm.visualizer.set(outline);",
+									"            }",
+									"        }",
+									"        )",
+									"    }",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Api-Key",
+								"value": "{{postman_api_key}}"
+							}
+						],
+						"url": {
+							"raw": "https://api.getpostman.com/collections/?environment_name=PROD - Govern",
+							"protocol": "https",
+							"host": [
+								"api",
+								"getpostman",
+								"com"
+							],
+							"path": [
+								"collections",
+								""
+							],
+							"query": [
+								{
+									"key": "environment_name",
+									"value": "PROD - Govern",
+									"description": "The name of the environment being used for collection."
+								}
+							]
+						},
+						"description": "This outputs the outline of this life cycle collection to the visualizer for using elsewhere."
+					},
+					"response": [
+						{
+							"name": "Valid Response",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-Api-Key",
+										"value": "{{postman_api_key}}"
+									}
+								],
+								"url": {
+									"raw": "https://api.getpostman.com/collections/{{collection_uid}}",
+									"protocol": "https",
+									"host": [
+										"api",
+										"getpostman",
+										"com"
+									],
+									"path": [
+										"collections",
+										"{{collection_uid}}"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "javascript",
+							"header": [
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "",
+									"name": "Access-Control-Allow-Credentials",
+									"description": ""
+								},
+								{
+									"key": "Access-Control-Allow-Headers",
+									"value": "",
+									"name": "Access-Control-Allow-Headers",
+									"description": ""
+								},
+								{
+									"key": "Access-Control-Allow-Methods",
+									"value": "",
+									"name": "Access-Control-Allow-Methods",
+									"description": ""
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "",
+									"name": "Access-Control-Allow-Origin",
+									"description": ""
+								},
+								{
+									"key": "Access-Control-Expose-Headers",
+									"value": "",
+									"name": "Access-Control-Expose-Headers",
+									"description": ""
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive",
+									"name": "Connection",
+									"description": ""
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "gzip",
+									"name": "Content-Encoding",
+									"description": ""
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8",
+									"name": "Content-Type",
+									"description": ""
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 27 May 2016 21:37:31 GMT",
+									"name": "Date",
+									"description": ""
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"453-t7Du3QMg1i7hkk6S4e3NvA\"",
+									"name": "ETag",
+									"description": ""
+								},
+								{
+									"key": "Server",
+									"value": "nginx/1.8.1",
+									"name": "Server",
+									"description": ""
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding",
+									"name": "Vary",
+									"description": ""
+								},
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "60",
+									"name": "X-RateLimit-Limit",
+									"description": ""
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "57",
+									"name": "X-RateLimit-Remaining",
+									"description": ""
+								},
+								{
+									"key": "X-RateLimit-Reset",
+									"value": "1464385067",
+									"name": "X-RateLimit-Reset",
+									"description": ""
+								},
+								{
+									"key": "transfer-encoding",
+									"value": "chunked",
+									"name": "transfer-encoding",
+									"description": ""
+								}
+							],
+							"cookie": [],
+							"body": "{\"collection\":{\"variables\":[],\"info\":{\"name\":\"Sample Collection\",\"_postman_id\":\"f2e66c2e-5297-e4a5-739e-20cbb90900e3\",\"description\":\"This is a sample collection that makes a tiny request to Postman Echo service to get the list of request headers sent by a HTTP client.\",\"schema\":\"https://schema.getpostman.com/json/collection/v2.0.0/collection.json\"},\"item\":[{\"id\":\"82ee981b-e19f-962a-401e-ea34ebfb4848\",\"name\":\"Request Headers\",\"event\":[{\"listen\":\"test\",\"script\":{\"type\":\"text/javascript\",\"exec\":\"var responseJSON;\\ntry {\\n    tests[\\\"Body contains headers\\\"] = responseBody.has(\\\"headers\\\");\\n    responseJSON = JSON.parse(responseBody);\\n    tests[\\\"Header contains host\\\"] = \\\"host\\\" in responseJSON.headers;\\n    tests[\\\"Header contains test parameter sent as part of request header\\\"] = \\\"my-sample-header\\\" in responseJSON.headers;\\n}\\ncatch (e) { }\\n\\n\\n\\n\"}}],\"request\":{\"url\":\"https://echo.getpostman.com/headers\",\"method\":\"GET\",\"header\":[{\"key\":\"my-sample-header\",\"value\":\"Lorem ipsum dolor sit amet\",\"description\":\"\"}],\"body\":{\"mode\":\"formdata\",\"formdata\":[]},\"description\":\"\"},\"response\":[]}]}}"
+						}
+					]
+				},
+				{
+					"name": "Output Governance as JSON",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var response = pm.response.json();",
+									"",
+									"// Need todays time stamp",
+									"var currentdate = new Date();",
+									"var date_stamp = currentdate.getDate() + \"/\"",
+									"     + (currentdate.getMonth() + 1) + \"/\"",
+									"     + currentdate.getFullYear() + \" @ \"",
+									"     + currentdate.getHours() + \":00:00\";",
+									"",
+									"// parse the query string",
+									"const paramsString = request.url.split('?')[1];",
+									"const eachParamArray = paramsString.split('&');",
+									"let params = {};",
+									"eachParamArray.forEach((param) => {",
+									"    const key = param.split('=')[0];",
+									"    const value = param.split('=')[1];",
+									"    Object.assign(params, { [key]: value });",
+									"});",
+									"",
+									"//console.log(params.environment_name);",
+									"",
+									"var postman_api_key = pm.environment.get(\"postman_api_key\");",
+									"",
+									"for (c = 0; c < response.collections.length; c++) {",
+									"",
+									"    if (response.collections[c].name == 'Governance - Design') {",
+									"",
+									"        // Get the collection",
+									"        collectionRequest = {",
+									"            url: 'https://api.getpostman.com/collections/' + response.collections[c].id,",
+									"            method: 'GET',",
+									"            header: 'X-Api-Key:' + postman_api_key,",
+									"        };",
+									"",
+									"        pm.sendRequest(collectionRequest, function (err, res) {",
+									"",
+									"            if (err) {",
+									"                console.log(err);",
+									"            } else {",
+									"",
+									"                var response = res.json();",
+									"                var items_1 = response.collection.item;",
+									"",
+									"                var outline = {}",
+									"                outline[date_stamp] = {};",
+									"",
+									"                for (aIndex = 0; aIndex < items_1.length; aIndex++) {",
+									"",
+									"                    var is_request = 0;",
+									"                    if (items_1[aIndex].request) {",
+									"                        is_request = 1;",
+									"                    }",
+									"",
+									"                    name = items_1[aIndex].name;",
+									"                    outline_one = name;",
+									"                    description = items_1[aIndex].description;",
+									"",
+									"                    // Exclude Some",
+									"                    if (name != 'Reporting' && name != 'Pull API Into Environment') {",
+									"",
+									"                        var verb = \"\";",
+									"                        if (items_1[aIndex].request) {",
+									"                            if (items_1[aIndex].request.method) {",
+									"                                verb = items_1[aIndex].request.method;",
+									"                            }",
+									"                        }",
+									"",
+									"                        if (is_request == 1) {",
+									"                            var this_variable = pm.environment.get(name);",
+									"                            if (this_variable == 1) {",
+									"                                pass = \"&#9989;\";",
+									"                                result = true;",
+									"                            }",
+									"                            else {",
+									"                                pass = \"&#x274C;\";",
+									"                                result = false;",
+									"                            }                           ",
+									"                            outline[date_stamp][outline_one] = result;",
+									"                            //outline = outline + '<li>' + name + ' ' + pass;",
+									"                        }",
+									"                        else {",
+									"                            outline[date_stamp][outline_one] = {};",
+									"                            //outline = outline + '<li><strong>' + name + '</strong>';",
+									"                        }",
+									"",
+									"                        if (items_1[aIndex].item) {",
+									"",
+									"                            items_2 = items_1[aIndex].item;",
+									"",
+									"                            if (items_2.length > 0) {",
+									"",
+									"                                //outline = outline + '<ul>';",
+									"",
+									"                                for (bIndex = 0; bIndex < items_2.length; bIndex++) {",
+									"",
+									"                                    var is_request = 0;",
+									"                                    if (items_2[bIndex].request) {",
+									"                                        is_request = 1;",
+									"                                    }",
+									"",
+									"                                    name = items_2[bIndex].name;",
+									"                                    outline_two = name;",
+									"                                    description = items_2[bIndex].description;",
+									"",
+									"                                    var verb = \"\";",
+									"                                    if (items_2[bIndex].request) {",
+									"                                        if (items_2[bIndex].request.method) {",
+									"                                            verb = items_2[bIndex].request.method;",
+									"                                        }",
+									"                                    }",
+									"",
+									"                                    if (is_request == 1) {",
+									"",
+									"                                        var this_variable = pm.environment.get(name);",
+									"                                        if (this_variable == 1) {",
+									"                                            pass = \"&#9989;\";",
+									"                                            result = true;",
+									"                                        }",
+									"                                        else {",
+									"                                            pass = \"&#x274C;\";",
+									"                                            result = false;",
+									"                                        }  ",
+									"                                        ",
+									"                                        outline[date_stamp][outline_one][outline_two] = result;",
+									"                                        //outline = outline + '<li>' + name + ' ' + pass;",
+									"",
+									"                                    }",
+									"                                    else {",
+									"                                        outline[date_stamp][outline_one][outline_two] = {};",
+									"                                        //outline = outline + '<li><strong>' + name + '</strong>';",
+									"                                    }",
+									"",
+									"                                    if (items_2[bIndex].item) {",
+									"",
+									"                                        items_3 = items_2[bIndex].item;",
+									"",
+									"                                        if (items_3.length > 0) {",
+									"",
+									"                                            //outline = outline + '<ul>';",
+									"",
+									"                                            for (cIndex = 0; cIndex < items_3.length; cIndex++) {",
+									"",
+									"                                                var is_request = 0;",
+									"                                                if (items_3[cIndex].request) {",
+									"                                                    is_request = 1;",
+									"                                                }",
+									"",
+									"                                                name = items_3[cIndex].name;",
+									"                                                outline_three = name;",
+									"                                                description = items_3[cIndex].description;",
+									"",
+									"                                                var verb = \"\";",
+									"                                                if (items_3[cIndex].request) {",
+									"                                                    if (items_3[cIndex].request.method) {",
+									"                                                        verb = items_3[cIndex].request.method;",
+									"                                                    }",
+									"                                                }",
+									"",
+									"                                                var this_variable = pm.environment.get(name);",
+									"                                                if (this_variable == 1) {",
+									"                                                    pass = \"&#9989;\";",
+									"                                                }",
+									"                                                else {",
+									"                                                    pass = \"&#x274C;\";",
+									"                                                }",
+									"",
+									"                                                if (is_request == 1) {",
+									"",
+									"                                                    var this_variable = pm.environment.get(name);",
+									"                                                    if (this_variable == 1) {",
+									"                                                        pass = \"&#9989;\";",
+									"                                                        result = true;",
+									"                                                    }",
+									"                                                    else {",
+									"                                                        pass = \"&#x274C;\";",
+									"                                                        result = false;",
+									"                                                    }                                              ",
+									"      ",
+									"                                                    outline[date_stamp][outline_one][outline_two][outline_three] = result;",
+									"                                                    //outline = outline + '<li>' + name + ' ' + pass + '</strong></li>';",
+									"",
+									"                                                }",
+									"                                                else {",
+									"                                                    outline[date_stamp][outline_one][outline_two][outline_three] = {};",
+									"                                                    //outline = outline + '<li><strong>' + name + '</strong></li>';",
+									"                                                }",
+									"",
+									"                                                if (items_3[cIndex].item) {",
+									"",
+									"                                                    console.log(\"HELLO\");",
+									"",
+									"                                                    items_4 = items_3[cIndex].item;",
+									"",
+									"                                                    if (items_4.length > 0) {",
+									"",
+									"                                                        //outline = outline + '<ul>';",
+									"",
+									"                                                        for (dIndex = 0; dIndex < items_4.length; dIndex++) {",
+									"",
+									"                                                            var is_request = 0;",
+									"                                                            if (items_4[dIndex].request) {",
+									"                                                                is_request = 1;",
+									"                                                            }",
+									"",
+									"                                                            name = items_4[dIndex].name;",
+									"                                                            outline_four = name;",
+									"                                                            description = items_4[dIndex].description;",
+									"",
+									"                                                            var verb = \"\";",
+									"                                                            if (items_4[dIndex].request) {",
+									"                                                                if (items_4[dIndex].request.method) {",
+									"                                                                    verb = items_4[dIndex].request.method;",
+									"                                                                }",
+									"                                                            }",
+									"",
+									"                                                            var this_variable = pm.environment.get(name);",
+									"                                                            if (this_variable == 1) {",
+									"                                                                pass = \"&#9989;\";",
+									"                                                            }",
+									"                                                            else {",
+									"                                                                pass = \"&#x274C;\";",
+									"                                                            }",
+									"",
+									"                                                            if (is_request == 1) {",
+									"",
+									"                                                                var this_variable = pm.environment.get(name);",
+									"                                                                if (this_variable == 1) {",
+									"                                                                    pass = \"&#9989;\";",
+									"                                                                    result = true;",
+									"                                                                }",
+									"                                                                else {",
+									"                                                                    pass = \"&#x274C;\";",
+									"                                                                    result = false;",
+									"                                                                }                                              ",
+									"",
+									"                                                                outline[date_stamp][outline_one][outline_two][outline_three][outline_four] = result;",
+									"                                                                //outline = outline + '<li>' + name + ' ' + pass + '</strong></li>';",
+									"",
+									"                                                            }",
+									"                                                            else {",
+									"                                                                outline[date_stamp][outline_one][outline_two][outline_three][outline_four] = {};",
+									"                                                                //outline = outline + '<li><strong>' + name + '</strong></li>';",
+									"                                                            }",
+									"",
+									"                                                        }",
+									"                                                        //outline = outline + '</ul>';",
+									"                                                    }",
+									"                                                }",
+									"",
+									"",
+									"                                            }",
+									"                                            //outline = outline + '</ul>';",
+									"                                        }",
+									"                                    }",
+									"",
+									"                                    //outline = outline + '</li>';",
+									"",
+									"                                }",
+									"                                //outline = outline + '</ul>';",
+									"                            }",
+									"",
+									"                            //outline = outline + '</li>';",
+									"                        }",
+									"                    }",
+									"                }",
+									"",
+									"                //outline = outline + '</ul>';",
+									"                pm.visualizer.set(JSON.stringify(outline));",
+									"            }",
+									"        }",
+									"        )",
+									"    }",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Api-Key",
+								"value": "{{postman_api_key}}"
+							}
+						],
+						"url": {
+							"raw": "https://api.getpostman.com/collections/?environment_name=PROD - Govern",
+							"protocol": "https",
+							"host": [
+								"api",
+								"getpostman",
+								"com"
+							],
+							"path": [
+								"collections",
+								""
+							],
+							"query": [
+								{
+									"key": "environment_name",
+									"value": "PROD - Govern",
+									"description": "The name of the environment being used for collection."
+								}
+							]
+						},
+						"description": "This outputs the outline of this life cycle collection to the visualizer for using elsewhere."
+					},
+					"response": [
+						{
+							"name": "Valid Response",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-Api-Key",
+										"value": "{{postman_api_key}}"
+									}
+								],
+								"url": {
+									"raw": "https://api.getpostman.com/collections/{{collection_uid}}",
+									"protocol": "https",
+									"host": [
+										"api",
+										"getpostman",
+										"com"
+									],
+									"path": [
+										"collections",
+										"{{collection_uid}}"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "javascript",
+							"header": [
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "",
+									"name": "Access-Control-Allow-Credentials",
+									"description": ""
+								},
+								{
+									"key": "Access-Control-Allow-Headers",
+									"value": "",
+									"name": "Access-Control-Allow-Headers",
+									"description": ""
+								},
+								{
+									"key": "Access-Control-Allow-Methods",
+									"value": "",
+									"name": "Access-Control-Allow-Methods",
+									"description": ""
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "",
+									"name": "Access-Control-Allow-Origin",
+									"description": ""
+								},
+								{
+									"key": "Access-Control-Expose-Headers",
+									"value": "",
+									"name": "Access-Control-Expose-Headers",
+									"description": ""
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive",
+									"name": "Connection",
+									"description": ""
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "gzip",
+									"name": "Content-Encoding",
+									"description": ""
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8",
+									"name": "Content-Type",
+									"description": ""
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 27 May 2016 21:37:31 GMT",
+									"name": "Date",
+									"description": ""
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"453-t7Du3QMg1i7hkk6S4e3NvA\"",
+									"name": "ETag",
+									"description": ""
+								},
+								{
+									"key": "Server",
+									"value": "nginx/1.8.1",
+									"name": "Server",
+									"description": ""
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding",
+									"name": "Vary",
+									"description": ""
+								},
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "60",
+									"name": "X-RateLimit-Limit",
+									"description": ""
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "57",
+									"name": "X-RateLimit-Remaining",
+									"description": ""
+								},
+								{
+									"key": "X-RateLimit-Reset",
+									"value": "1464385067",
+									"name": "X-RateLimit-Reset",
+									"description": ""
+								},
+								{
+									"key": "transfer-encoding",
+									"value": "chunked",
+									"name": "transfer-encoding",
+									"description": ""
+								}
+							],
+							"cookie": [],
+							"body": "{\"collection\":{\"variables\":[],\"info\":{\"name\":\"Sample Collection\",\"_postman_id\":\"f2e66c2e-5297-e4a5-739e-20cbb90900e3\",\"description\":\"This is a sample collection that makes a tiny request to Postman Echo service to get the list of request headers sent by a HTTP client.\",\"schema\":\"https://schema.getpostman.com/json/collection/v2.0.0/collection.json\"},\"item\":[{\"id\":\"82ee981b-e19f-962a-401e-ea34ebfb4848\",\"name\":\"Request Headers\",\"event\":[{\"listen\":\"test\",\"script\":{\"type\":\"text/javascript\",\"exec\":\"var responseJSON;\\ntry {\\n    tests[\\\"Body contains headers\\\"] = responseBody.has(\\\"headers\\\");\\n    responseJSON = JSON.parse(responseBody);\\n    tests[\\\"Header contains host\\\"] = \\\"host\\\" in responseJSON.headers;\\n    tests[\\\"Header contains test parameter sent as part of request header\\\"] = \\\"my-sample-header\\\" in responseJSON.headers;\\n}\\ncatch (e) { }\\n\\n\\n\\n\"}}],\"request\":{\"url\":\"https://echo.getpostman.com/headers\",\"method\":\"GET\",\"header\":[{\"key\":\"my-sample-header\",\"value\":\"Lorem ipsum dolor sit amet\",\"description\":\"\"}],\"body\":{\"mode\":\"formdata\",\"formdata\":[]},\"description\":\"\"},\"response\":[]}]}}"
+						}
+					]
+				},
+				{
+					"name": "Publish governance outline to GitHub",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var response = pm.response.json();",
+									"",
+									"var postman_api_key = pm.environment.get(\"postman_api_key\"); ",
+									"",
+									"for (c = 0; c < response.collections.length; c++) {",
+									"    ",
+									"    if(response.collections[c].name == 'Governance - Design'){",
+									"    ",
+									"        // Get the collection",
+									"        collectionRequest = {",
+									"          url: 'https://api.getpostman.com/collections/' + response.collections[c].id,",
+									"          method: 'GET',",
+									"          header: 'X-Api-Key:' + postman_api_key,",
+									"        };",
+									"        ",
+									"        pm.sendRequest(collectionRequest, function (err, res) {",
+									"        ",
+									"            if (err) {",
+									"                console.log(err);",
+									"            } else {      ",
+									"        ",
+									"                var response = res.json();",
+									"                var items_1 = response.collection.item;",
+									"",
+									"                var outline = '# API Governance\\r\\n';",
+									"                outline = outline + 'This is the current outline for API governance, providing an overview of how APIs are moved forward.\\r\\n\\r\\n'",
+									"",
+									"                outline = outline + '- [**Documentation**](https://documenter.getpostman.com/view/10394726/SzYUagbA?version=latest)'",
+									"                ",
+									"                ",
+									"                for (aIndex = 0; aIndex < items_1.length; aIndex++) {",
+									"                    ",
+									"                    var is_request = 0;",
+									"                    if(items_1[aIndex].request){",
+									"                        is_request = 1;",
+									"                    }",
+									"                    ",
+									"                    name = items_1[aIndex].name;",
+									"                    description = items_1[aIndex].description;",
+									"                    ",
+									"                    // Exclude Some",
+									"                    if(name != 'Pull API Into Environment'){",
+									"                        ",
+									"                        ",
+									"                        if(is_request==1){",
+									"                            outline = outline + '\\r\\n## ' + name + '\\r\\n';",
+									"                            outline = outline + description + '\\r\\n\\r\\n';",
+									"                        }",
+									"                        else{",
+									"                            outline = outline + '\\r\\n## ' + name + '\\r\\n';",
+									"                            outline = outline + description + '\\r\\n\\r\\n';",
+									"                        }",
+									"                        ",
+									"                        if(items_1[aIndex].item){",
+									"                            ",
+									"                            items_2 = items_1[aIndex].item;",
+									"                    ",
+									"                            if(items_2.length > 0){",
+									"             ",
+									"                                ",
+									"                                for (bIndex = 0; bIndex < items_2.length; bIndex++) {",
+									"                                    ",
+									"                                    var is_request = 0;",
+									"                                    if( items_2[bIndex].request){",
+									"                                        is_request = 1;",
+									"                                    }",
+									"    ",
+									"                                    name = items_2[bIndex].name;",
+									"                                    description = items_2[bIndex].description;",
+									"                                    ",
+									"                                    if(is_request==1){",
+									"                                        outline = outline + ' - ' + name + '\\r\\n';   ",
+									"                                    }",
+									"                                    else{",
+									"                                        outline = outline + '### ' + name + '\\r\\n';",
+									"                                        outline = outline + description + '\\r\\n\\r\\n';",
+									"                                    }",
+									"                    ",
+									"                                    if(items_2[bIndex].item){",
+									"                                        ",
+									"                                        items_3 = items_2[bIndex].item;",
+									"                                        ",
+									"                                        if(items_3.length > 0){",
+									"                                            ",
+									"                                            for (cIndex = 0; cIndex < items_3.length; cIndex++) {",
+									"                                                            ",
+									"                                                var is_request = 0;",
+									"                                                if(items_3[cIndex].request){",
+									"                                                    is_request = 1;",
+									"                                                }",
+									"                                                ",
+									"                                                name = items_3[cIndex].name;",
+									"                                                description = items_3[cIndex].description;",
+									"                                                ",
+									"                                                if(is_request==1){",
+									"                                                    outline = outline + ' - ' + name + '\\r\\n';",
+									"                                                    ",
+									"                                                }",
+									"                                                else{",
+									"                                                    outline = outline + '### ' + name + '\\r\\n';",
+									"                                                    outline = outline + description + '\\r\\n\\r\\n';",
+									"                                                }                                            ",
+									"                                                ",
+									"                                            }   ",
+									"                                           outline = outline + '\\r\\n';",
+									"                                        }",
+									"                                    }",
+									"                            ",
+									"                                }   ",
+									"                               outline = outline + '\\r\\n'; ",
+									"                            }",
+									"                            ",
+									"                        ",
+									"                        }",
+									"                    }",
+									"                }",
+									"                ",
+									"                pm.visualizer.set(outline);  ",
+									"                ",
+									"                var requestFileName = 'governance/index.md';",
+									"                ",
+									"                var CryptoJS = require(\"crypto-js\");",
+									"                ",
+									"                // we need three values from the environment",
+									"                var github_token = pm.environment.get(\"github_token\");",
+									"                var github_user = pm.environment.get(\"github_user\");",
+									"                var github_repo = 'home';",
+									"                ",
+									"                // see if this file already exists",
+									"                github_api_url = 'https://api.github.com/repos/' + github_user + '/' + github_repo + '/contents/' + requestFileName;",
+									"                ",
+									"                const echoPostRequest = {",
+									"                  url: github_api_url,",
+									"                  method: 'GET',",
+									"                  header: 'Authorization: token ' + github_token",
+									"                };",
+									"                ",
+									"                pm.sendRequest(echoPostRequest, function (err, res) {",
+									"                    if (err) {",
+									"                        console.log(err);",
+									"                    } else {",
+									"                        ",
+									"                        var response = res.json();",
+									"                        ",
+									"                        if(response.message == 'Not Found'){",
+									"",
+									"                            var rawStr = CryptoJS.enc.Utf8.parse(outline)      ",
+									"                            var base64 = CryptoJS.enc.Base64.stringify(rawStr);      ",
+									"                                  ",
+									"                            body = {};",
+									"                            body.message = \"Create File\";",
+									"                            body.content = base64;",
+									"                ",
+									"                            const addResponse = {",
+									"                              url: github_api_url,",
+									"                              method: 'PUT',",
+									"                              header: 'Authorization: token ' + github_token,",
+									"                              body: {",
+									"                                mode: 'raw',",
+									"                                raw: JSON.stringify(body)",
+									"                              }",
+									"                            };",
+									"                ",
+									"                            pm.sendRequest(addResponse, function (addError, addRes) {",
+									"                              console.log(addError ? addError : addRes.json());",
+									"                            });           ",
+									"                                       ",
+									"                        }",
+									"                        else{",
+									"                           ",
+									"                           sha = response.sha;",
+									"                           ",
+									"                            rawStr = CryptoJS.enc.Utf8.parse(outline);     ",
+									"                            base64 = CryptoJS.enc.Base64.stringify(rawStr);      ",
+									"                                  ",
+									"                            body = {};",
+									"                            body.message = \"Create File\";",
+									"                            body.content = base64;",
+									"                            body.sha = sha;",
+									"                ",
+									"                            const addResponse = {",
+									"                              url: github_api_url,",
+									"                              method: 'PUT',",
+									"                              header: 'Authorization: token ' + github_token,",
+									"                              body: {",
+									"                                mode: 'raw',",
+									"                                raw: JSON.stringify(body)",
+									"                              }",
+									"                            };",
+									"                ",
+									"                            pm.sendRequest(addResponse, function (addError, addRes) {",
+									"                              console.log(addError ? addError : addRes.json());",
+									"                            });             ",
+									"                           ",
+									"                            ",
+									"                        }",
+									"                    }",
+									"                });                ",
+									"                ",
+									"            }",
+									"        }",
+									"    )}",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Api-Key",
+								"value": "{{postman_api_key}}"
+							}
+						],
+						"url": {
+							"raw": "https://api.getpostman.com/collections/",
+							"protocol": "https",
+							"host": [
+								"api",
+								"getpostman",
+								"com"
+							],
+							"path": [
+								"collections",
+								""
+							]
+						},
+						"description": "This outputs the outline of this life cycle collection to the visualizer for using elsewhere."
+					},
+					"response": [
+						{
+							"name": "Valid Response",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-Api-Key",
+										"value": "{{postman_api_key}}"
+									}
+								],
+								"url": {
+									"raw": "https://api.getpostman.com/collections/{{collection_uid}}",
+									"protocol": "https",
+									"host": [
+										"api",
+										"getpostman",
+										"com"
+									],
+									"path": [
+										"collections",
+										"{{collection_uid}}"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "javascript",
+							"header": [
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "",
+									"name": "Access-Control-Allow-Credentials",
+									"description": ""
+								},
+								{
+									"key": "Access-Control-Allow-Headers",
+									"value": "",
+									"name": "Access-Control-Allow-Headers",
+									"description": ""
+								},
+								{
+									"key": "Access-Control-Allow-Methods",
+									"value": "",
+									"name": "Access-Control-Allow-Methods",
+									"description": ""
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "",
+									"name": "Access-Control-Allow-Origin",
+									"description": ""
+								},
+								{
+									"key": "Access-Control-Expose-Headers",
+									"value": "",
+									"name": "Access-Control-Expose-Headers",
+									"description": ""
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive",
+									"name": "Connection",
+									"description": ""
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "gzip",
+									"name": "Content-Encoding",
+									"description": ""
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8",
+									"name": "Content-Type",
+									"description": ""
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 27 May 2016 21:37:31 GMT",
+									"name": "Date",
+									"description": ""
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"453-t7Du3QMg1i7hkk6S4e3NvA\"",
+									"name": "ETag",
+									"description": ""
+								},
+								{
+									"key": "Server",
+									"value": "nginx/1.8.1",
+									"name": "Server",
+									"description": ""
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding",
+									"name": "Vary",
+									"description": ""
+								},
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "60",
+									"name": "X-RateLimit-Limit",
+									"description": ""
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "57",
+									"name": "X-RateLimit-Remaining",
+									"description": ""
+								},
+								{
+									"key": "X-RateLimit-Reset",
+									"value": "1464385067",
+									"name": "X-RateLimit-Reset",
+									"description": ""
+								},
+								{
+									"key": "transfer-encoding",
+									"value": "chunked",
+									"name": "transfer-encoding",
+									"description": ""
+								}
+							],
+							"cookie": [],
+							"body": "{\"collection\":{\"variables\":[],\"info\":{\"name\":\"Sample Collection\",\"_postman_id\":\"f2e66c2e-5297-e4a5-739e-20cbb90900e3\",\"description\":\"This is a sample collection that makes a tiny request to Postman Echo service to get the list of request headers sent by a HTTP client.\",\"schema\":\"https://schema.getpostman.com/json/collection/v2.0.0/collection.json\"},\"item\":[{\"id\":\"82ee981b-e19f-962a-401e-ea34ebfb4848\",\"name\":\"Request Headers\",\"event\":[{\"listen\":\"test\",\"script\":{\"type\":\"text/javascript\",\"exec\":\"var responseJSON;\\ntry {\\n    tests[\\\"Body contains headers\\\"] = responseBody.has(\\\"headers\\\");\\n    responseJSON = JSON.parse(responseBody);\\n    tests[\\\"Header contains host\\\"] = \\\"host\\\" in responseJSON.headers;\\n    tests[\\\"Header contains test parameter sent as part of request header\\\"] = \\\"my-sample-header\\\" in responseJSON.headers;\\n}\\ncatch (e) { }\\n\\n\\n\\n\"}}],\"request\":{\"url\":\"https://echo.getpostman.com/headers\",\"method\":\"GET\",\"header\":[{\"key\":\"my-sample-header\",\"value\":\"Lorem ipsum dolor sit amet\",\"description\":\"\"}],\"body\":{\"mode\":\"formdata\",\"formdata\":[]},\"description\":\"\"},\"response\":[]}]}}"
+						}
+					]
+				}
+			],
+			"description": "Finally, reporting is an important aspect of governance, ensuring that the API governance process is being applied to each API, and the outcomes are being recorded, shared, and considered. Providing observability over the API governance process, and always considering how the process can be expanded and improved upon.",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
