@@ -7,6 +7,7 @@ while getopts "e:c:" opt; do
     environment=$OPTARG
     ;;
     c)
+    echo '$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$Some TEST$$$$$$$$$$$$$$$$$$$$$'
     collection=$OPTARG
     ;;
   esac
@@ -32,7 +33,7 @@ if [[ -z "$1" ]]; then
 else
  environment='cosmos.postman_environment.json'
  collection='Cosmos.postman_collection.json'
- shift 1
+ #shift 1
  folderArg=$1
  shift
  #echo $@
