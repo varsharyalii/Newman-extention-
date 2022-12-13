@@ -7,7 +7,7 @@ while getopts "e:c:" opt; do
     environment=$OPTARG
     ;;
     c)
-    echo '$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$Some TEST$$$$$$$$$$$$$$$$$$$$$'
+    #echo '$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$Some TEST$$$$$$$$$$$$$$$$$$$$$'
     collection=$OPTARG
     ;;
   esac
