@@ -21,7 +21,7 @@ createNewmanCommands() {
     #adding folders as options
     #
     for (( i = 0; i < ${#folders[@]}; i++ )); do
-        folders[$i]=" 'newman run \""${collection}"\" --folder \""${folders[$i]}"\" -e \""${environment}"\" '";
+        folders[$i]=" 'newman run \""${collection}"\" --folder \""${folders[$i]}"\" -e \""${environment}"\" --reporters cli,junit,htmlextra --reporter-junit-export "newman_result.xml" --reporter-htmlextra-export "newman_result.html" '";
         command="${command}${folders[$i]}";
     done
     echo -e "Command generated with folders - ${command}\n";
@@ -29,7 +29,7 @@ createNewmanCommands() {
 }
 if [[ -z "$1" ]]; then
     echo -e "No argument supplied, running all tests \n"
-    newman run Cosmos.postman_collection.json -e cosmos.postman_environment.json
+    #newman run Cosmos.postman_collection.json -e cosmos.postman_environment.json
 else
  #environment='cosmos.postman_environment.json'
  #collection='Cosmos.postman_collection.json'
