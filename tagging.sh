@@ -25,7 +25,7 @@ newman run <(cat $collection | jq -c '
         (.name)? | test("\\['${tag}'\\]") | not
         )
      ))
- ')  --environment $environment
+ ')  --environment $environment --reporters cli,junit,htmlextra --reporter-junit-export "newman_result.xml" --reporter-htmlextra-export "newman_result.html" 
 }
 if [[ -z $1 ]]; then
  echo -e 'No enough args :('
